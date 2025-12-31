@@ -1,0 +1,23 @@
+- id: arbitrum
+  name: Arbitrum
+  type: evm
+
+- id: avalanche
+  name: Avalanche
+  type: evm
+
+- id: base
+  name: Base
+  type: evm
+
+- id: ethereum
+  name: Ethereum
+  type: evm
+
+- id: polygon
+  name: Polygon
+  type: evm
+
+- id: solana
+  name: Solana
+  type: svm

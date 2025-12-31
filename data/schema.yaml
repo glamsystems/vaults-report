@@ -1,0 +1,15 @@
+project:
+  required:
+    - name
+    - slug
+    - url
+    - description
+    - category
+  optional:
+    - chains
+    - status
+    - tags
+    - logo
+    - github
+    - twitter
+    - linkedin
