@@ -9,7 +9,6 @@ project:
   optional:
     - chains
     - status
-    - tags
     - logo
     - github
     - docs
