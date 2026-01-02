@@ -1,0 +1,96 @@
+# Vaults Report - Categories & Sub-categories
+# Last updated: 2026-01-02
+
+categories:
+  - id: infrastructure
+    name: Infrastructure
+    description: |
+      Base layer protocols and platforms enabling vault creation,
+      configuration, and management. These are the primitives that
+      define what a vault is and how it behaves onchain.
+    sub-categories:
+      - id: vault-platforms
+        name: Vault Platforms
+        description: |
+          General-purpose infrastructure for creating and managing
+          tokenized investment vaults. Horizontal platforms where
+          managers can deploy any strategy.
+      - id: protocol-native-vaults
+        name: Protocol-Native Vaults
+        description: |
+          Vertical vault infrastructure integrated into a protocol's
+          core product. Vaults built on top of DEXs, perps, or
+          liquidity protocols.
+      - id: cross-chain-platforms
+        name: Cross-Chain Platforms
+        description: |
+          Infrastructure enabling vault operations across multiple
+          blockchains. Includes omnichain standards, bridges, and
+          cross-chain execution layers.
+
+  - id: management-curation
+    name: Management & Curation
+    description: |
+      Teams, firms, and systems running capital strategies inside vaults.
+      They deploy, rebalance, and manage assets according to defined
+      mandates. Includes quantitative strategists, yield curators,
+      risk managers, and treasury operators.
+
+  - id: lending-yield
+    name: Lending & Yield
+    description: |
+      Protocols and platforms for lending, borrowing, and yield
+      optimization. Includes money markets, yield aggregators,
+      credit marketplaces, and interest rate products.
+
+  - id: asset-tokenization
+    name: Asset Tokenization
+    description: |
+      Platforms and protocols issuing tokenized representations of
+      real-world and financial assets. Bridges traditional finance
+      instruments to onchain rails.
+    sub-categories:
+      - id: treasury-securities
+        name: Treasury Securities
+        description: |
+          Tokenized money market funds and products backed by
+          U.S. Treasury bills, government securities, and
+          short-duration fixed income.
+      - id: tokenization-platforms
+        name: Tokenization Platforms
+        description: |
+          Infrastructure for issuing and managing tokenized
+          securities, funds, and real-world assets with
+          regulatory compliance.
+      - id: private-credit-alternative-assets
+        name: Private Credit & Alternative Assets
+        description: |
+          Tokenized access to private credit, diversified funds,
+          and alternative investment products beyond traditional
+          public markets.
+
+  - id: tooling
+    name: Tooling
+    description: |
+      Supporting infrastructure for vault security, custody,
+      access control, and operational safety. The connective
+      tissue that keeps vaults secure and compliant.
+    sub-categories:
+      - id: security-monitoring
+        name: Security Monitoring
+        description: |
+          Real-time threat detection, exploit prevention, and
+          automated response systems for smart contracts and
+          onchain operations.
+      - id: key-management
+        name: Key Management
+        description: |
+          Custody solutions, multisig wallets, and MPC-based
+          infrastructure for secure asset storage and
+          transaction signing.
+      - id: access-control
+        name: Access Control
+        description: |
+          Policy engines, permissions modules, and role-based
+          access systems for granular control over vault
+          operations and transactions.
