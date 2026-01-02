@@ -5,8 +5,8 @@ project:
     - url
     - description
     - category
-    - sub-category
   optional:
+    - sub-category
     - chains
     - status
     - logo
