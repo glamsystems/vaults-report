@@ -53,7 +53,7 @@ export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
