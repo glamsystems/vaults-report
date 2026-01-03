@@ -65,7 +65,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
         className="text-muted-foreground hover:text-foreground transition-colors"
         title="Website"
       >
-        <Globe className="size-4" />
+        <Globe className="size-5" />
       </a>
       {github && (
         <a
@@ -75,7 +75,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="GitHub"
         >
-          <GithubLogo className="size-4" />
+          <GithubLogo className="size-5" />
         </a>
       )}
       {docs && (
@@ -86,7 +86,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="Documentation"
         >
-          <FileText className="size-4" />
+          <FileText className="size-5" />
         </a>
       )}
       {twitter && (
@@ -97,7 +97,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="X/Twitter"
         >
-          <XLogo className="size-4" />
+          <XLogo className="size-5" />
         </a>
       )}
       {showAll && linkedin && (
@@ -108,7 +108,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="LinkedIn"
         >
-          <LinkedinLogo className="size-4" />
+          <LinkedinLogo className="size-5" />
         </a>
       )}
       {showAll && email && (
@@ -117,7 +117,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="Email"
         >
-          <EnvelopeSimple className="size-4" />
+          <EnvelopeSimple className="size-5" />
         </a>
       )}
       {showAll && telegram && (
@@ -128,7 +128,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="Telegram"
         >
-          <TelegramLogo className="size-4" />
+          <TelegramLogo className="size-5" />
         </a>
       )}
     </div>
@@ -137,7 +137,7 @@ function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?
 
 function ProjectHoverContent({ entry, category, isDark }: { entry: DirectoryEntry; category: string; isDark: boolean }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 text-sm">
       {/* Header */}
       <div className="flex items-center gap-3">
         <img
