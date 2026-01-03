@@ -1,7 +1,41 @@
 # Vaults Report - Categories & Sub-categories
-# Last updated: 2026-01-02
+# Last updated: 2026-01-03
 
 categories:
+  - id: management-curation
+    name: Management & Curation
+    description: |
+      Teams, firms, and systems running capital strategies inside vaults.
+      They deploy, rebalance, and manage assets according to defined
+      mandates. Includes quantitative strategists, yield curators,
+      risk managers, and treasury operators.
+
+  - id: asset-tokenization
+    name: Asset Tokenization
+    description: |
+      Platforms and protocols issuing tokenized representations of
+      real-world and financial assets. Bridges traditional finance
+      instruments to onchain rails.
+    sub-categories:
+      - id: treasury-securities
+        name: Treasury Securities
+        description: |
+          Tokenized money market funds and products backed by
+          U.S. Treasury bills, government securities, and
+          short-duration fixed income.
+      - id: tokenization-platforms
+        name: Tokenization Platforms
+        description: |
+          Infrastructure for issuing and managing tokenized
+          securities, funds, and real-world assets with
+          regulatory compliance.
+      - id: private-credit-alternatives
+        name: Private Credit & Alternatives
+        description: |
+          Tokenized access to private credit, diversified funds,
+          and alternative investment products beyond traditional
+          public markets.
+
   - id: infrastructure
     name: Infrastructure
     description: |
@@ -28,46 +62,12 @@ categories:
           blockchains. Includes omnichain standards, bridges, and
           cross-chain execution layers.
 
-  - id: management-curation
-    name: Management & Curation
-    description: |
-      Teams, firms, and systems running capital strategies inside vaults.
-      They deploy, rebalance, and manage assets according to defined
-      mandates. Includes quantitative strategists, yield curators,
-      risk managers, and treasury operators.
-
   - id: lending-yield
     name: Lending & Yield
     description: |
       Protocols and platforms for lending, borrowing, and yield
       optimization. Includes money markets, yield aggregators,
       credit marketplaces, and interest rate products.
-
-  - id: asset-tokenization
-    name: Asset Tokenization
-    description: |
-      Platforms and protocols issuing tokenized representations of
-      real-world and financial assets. Bridges traditional finance
-      instruments to onchain rails.
-    sub-categories:
-      - id: treasury-securities
-        name: Treasury Securities
-        description: |
-          Tokenized money market funds and products backed by
-          U.S. Treasury bills, government securities, and
-          short-duration fixed income.
-      - id: tokenization-platforms
-        name: Tokenization Platforms
-        description: |
-          Infrastructure for issuing and managing tokenized
-          securities, funds, and real-world assets with
-          regulatory compliance.
-      - id: private-credit-alternative-assets
-        name: Private Credit & Alternative Assets
-        description: |
-          Tokenized access to private credit, diversified funds,
-          and alternative investment products beyond traditional
-          public markets.
 
   - id: tooling
     name: Tooling

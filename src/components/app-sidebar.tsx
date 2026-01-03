@@ -8,6 +8,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
@@ -16,12 +17,16 @@ import {
 } from "@/components/ui/sidebar"
 
 const navItems = [
-  { title: "Ecosystem", url: "/", icon: Globe },
-  { title: "Directory", url: "/directory", icon: FolderOpen },
-  { title: "About", url: "/about", icon: Info },
+  // { title: "Ecosystem", url: "/", icon: Globe },
+  { title: "Directory", url: "/", icon: FolderOpen },
+  // { title: "About", url: "/about", icon: Info },
 ]
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  directoryCount?: number
+}
+
+export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -53,6 +58,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
+                  {item.title === "Directory" && directoryCount && (
+                    <SidebarMenuBadge className="text-muted-foreground">[{directoryCount}]</SidebarMenuBadge>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

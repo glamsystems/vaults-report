@@ -9,6 +9,7 @@ project:
     - sub-category
     - chains
     - status
+    - listed
     - github
     - docs
     - x_twitter

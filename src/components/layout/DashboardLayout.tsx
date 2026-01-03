@@ -13,14 +13,15 @@ interface DashboardLayoutProps {
   children: ReactNode
   title: string
   defaultOpen?: boolean
+  directoryCount?: number
 }
 
-export function DashboardLayout({ children, title, defaultOpen }: DashboardLayoutProps) {
+export function DashboardLayout({ children, title, defaultOpen, directoryCount }: DashboardLayoutProps) {
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
+      <AppSidebar directoryCount={directoryCount} />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <header className="bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -36,7 +37,7 @@ export function DashboardLayout({ children, title, defaultOpen }: DashboardLayou
             </Breadcrumb>
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <main className="mx-auto flex w-full max-w-5xl min-w-0 flex-1 flex-col gap-8 px-4 py-6 md:px-0 lg:py-8">
           {children}
         </main>
       </SidebarInset>
