@@ -141,7 +141,7 @@ function ProjectHoverContent({ entry, category }: { entry: DirectoryEntry; categ
       {/* Header */}
       <div className="flex items-center gap-3">
         <img
-          src={`/assets/logos/normalized/${entry.slug}-light.svg`}
+          src={`${import.meta.env.BASE_URL}assets/logos/normalized/${entry.slug}-light.svg`}
           alt={entry.name}
           className="size-8"
         />
@@ -367,7 +367,7 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <img
-                            src={`/assets/logos/normalized/${entry.slug}-light.svg`}
+                            src={`${import.meta.env.BASE_URL}assets/logos/normalized/${entry.slug}-light.svg`}
                             alt={entry.name}
                             className="size-6"
                           />
