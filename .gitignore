@@ -5,7 +5,9 @@ Thumbs.db
 # Editors
 .vscode/
 .idea/
+.claude/
 *.swp
+
 
 # Dependencies
 node_modules/
@@ -13,7 +15,15 @@ node_modules/
 # Build
 dist/
 .output/
+.astro/
 
 # Env
 .env
 .env.local
+.env.production
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
