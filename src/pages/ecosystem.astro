@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { DashboardLayout } from '../components/layout/DashboardLayout'
+import { EcosystemGrid } from '../components/ecosystem-grid'
+import { getGroupedDirectory } from '../lib/directory'
+
+const groupedData = getGroupedDirectory()
+const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
+---
+
+<Layout>
+  <DashboardLayout client:load title="Ecosystem" directoryCount={totalProjects}>
+    <EcosystemGrid client:load data={groupedData} />
+  </DashboardLayout>
+</Layout>
