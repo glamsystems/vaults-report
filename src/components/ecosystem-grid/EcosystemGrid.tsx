@@ -1,93 +1,34 @@
+import { ResponsiveTreeMap } from '@nivo/treemap'
 import { LabeledContainer } from './LabeledContainer'
 import { ItemTile } from './ItemTile'
 import type { GroupedDirectory } from '../../lib/directory'
 
 const CARD_SIZE = 64 // px
-const GRID_COLS = 15
-const BOX_PADDING_X = 16 // px (px-2 each side)
-const BOX_PADDING_Y = 24 // px (pt-4 + pb-2)
+const BOX_PADDING = 20 // padding inside box for label + margins
+const MIN_COLS = 2 // minimum columns per group
 
-type GroupBox = {
-  group: GroupedDirectory
-  x: number      // grid column start
-  y: number      // grid row start
-  cols: number   // width in grid cells
-  rows: number   // height in grid cells
-  itemCols: number // how many item columns fit
-}
+// Calculate minimum area needed to display all items in a group
+function calcMinArea(itemCount: number): number {
+  // Find optimal rectangle dimensions for items
+  // Prefer wider rectangles (ratio ~2:1)
+  let bestCols = MIN_COLS
+  let bestRows = Math.ceil(itemCount / MIN_COLS)
+  let bestRatio = bestCols / bestRows
 
-// Calculate optimal box dimensions for a group's item count
-function optimalBox(itemCount: number, maxGridCols: number): { gridCols: number; gridRows: number; itemCols: number } {
-  // Calculate usable space per grid cell accounting for padding
-  // We need: itemCols * CARD_SIZE + BOX_PADDING_X <= gridCols * CARD_SIZE
-  // So: itemCols <= gridCols - BOX_PADDING_X/CARD_SIZE
-
-  let bestGridCols = 1
-  let bestGridRows = itemCount + 1
-  let bestItemCols = 1
-  let bestScore = Infinity
-
-  for (let gridCols = 1; gridCols <= maxGridCols; gridCols++) {
-    // How many items fit horizontally in this box width
-    const usableWidth = gridCols * CARD_SIZE - BOX_PADDING_X
-    const itemCols = Math.max(1, Math.floor(usableWidth / CARD_SIZE))
-    const itemRows = Math.ceil(itemCount / itemCols)
-
-    // How many grid rows needed for these item rows
-    const neededHeight = itemRows * CARD_SIZE + BOX_PADDING_Y
-    const gridRows = Math.ceil(neededHeight / CARD_SIZE)
-
-    // Score: prefer wider boxes (closer to 16:9)
-    const ratio = gridCols / gridRows
-    const score = Math.abs(ratio - 2) + gridCols * gridRows * 0.01 // prefer wider, smaller total area
-
-    if (score < bestScore) {
-      bestScore = score
-      bestGridCols = gridCols
-      bestGridRows = gridRows
-      bestItemCols = itemCols
+  for (let cols = MIN_COLS; cols <= itemCount; cols++) {
+    const rows = Math.ceil(itemCount / cols)
+    const ratio = cols / rows
+    // Prefer ratio around 2:1 (wider than tall)
+    if (Math.abs(ratio - 2) < Math.abs(bestRatio - 2)) {
+      bestCols = cols
+      bestRows = rows
+      bestRatio = ratio
     }
   }
 
-  return { gridCols: bestGridCols, gridRows: bestGridRows, itemCols: bestItemCols }
-}
-
-// Simple row-based packing into GRID_COLS wide
-function packIntoGrid(data: GroupedDirectory[]): GroupBox[] {
-  const boxes: GroupBox[] = []
-  let cursorX = 0
-  let cursorY = 0
-  let rowHeight = 0
-
-  for (const group of data) {
-    const remainingCols = GRID_COLS - cursorX
-    const { gridCols, gridRows, itemCols } = optimalBox(
-      group.items.length,
-      Math.min(GRID_COLS, remainingCols > 2 ? remainingCols : GRID_COLS)
-    )
-
-    // Check if fits in current row
-    if (cursorX + gridCols > GRID_COLS) {
-      // Move to next row
-      cursorX = 0
-      cursorY += rowHeight
-      rowHeight = 0
-    }
-
-    boxes.push({
-      group,
-      x: cursorX,
-      y: cursorY,
-      cols: gridCols,
-      rows: gridRows,
-      itemCols,
-    })
-
-    cursorX += gridCols
-    rowHeight = Math.max(rowHeight, gridRows)
-  }
-
-  return boxes
+  const width = bestCols * CARD_SIZE + BOX_PADDING
+  const height = bestRows * CARD_SIZE + BOX_PADDING
+  return width * height
 }
 
 type EcosystemGridProps = {
@@ -95,48 +36,84 @@ type EcosystemGridProps = {
 }
 
 export function EcosystemGrid({ data }: EcosystemGridProps) {
-  const boxes = packIntoGrid(data)
   const totalItems = data.reduce((sum, g) => sum + g.items.length, 0)
-  const maxRow = Math.max(...boxes.map(b => b.y + b.rows))
+
+  // Calculate total area needed
+  const totalArea = data.reduce((sum, g) => sum + calcMinArea(g.items.length), 0)
+
+  // Size container to fit all items with 16:9 ratio
+  const scale = 1.3 // extra space for treemap inefficiency
+  const treeWidth = Math.ceil(Math.sqrt(totalArea * scale * (16 / 9)))
+  const treeHeight = Math.ceil(treeWidth * (9 / 16))
+
+  // Transform data for nivo treemap - use calculated area as value
+  const treeData = {
+    name: 'root',
+    children: data.map((group) => ({
+      name: group.category,
+      value: calcMinArea(group.items.length),
+      items: group.items,
+    })),
+  }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 items-center">
       <div className="text-xs text-muted-foreground font-mono">
-        {totalItems} items in {GRID_COLS}×{maxRow} grid ({(GRID_COLS / maxRow).toFixed(2)} ratio, target {(16/9).toFixed(2)})
+        {totalItems} items in {treeWidth}×{treeHeight}px ({(treeWidth / treeHeight).toFixed(2)} ratio)
       </div>
-      <div
-        className="relative"
-        style={{
-          width: GRID_COLS * CARD_SIZE,
-          height: maxRow * CARD_SIZE,
-        }}
-      >
-        {boxes.map(({ group, x, y, cols, rows, itemCols }) => (
-          <div
-            key={group.category}
-            className="absolute"
-            style={{
-              left: x * CARD_SIZE,
-              top: y * CARD_SIZE,
-              width: cols * CARD_SIZE,
-              height: rows * CARD_SIZE,
-            }}
-          >
-            <LabeledContainer
-              label={`${group.category} [${group.items.length}]`}
-              className="w-full h-full"
-            >
-              <div
-                className="flex flex-wrap justify-center content-center"
-                style={{ width: itemCols * CARD_SIZE }}
-              >
-                {group.items.map((item) => (
-                  <ItemTile key={item.slug} slug={item.slug} name={item.name} />
-                ))}
-              </div>
-            </LabeledContainer>
-          </div>
-        ))}
+      <div className="bg-background" style={{ width: treeWidth + 24, height: treeHeight + 32, paddingTop: 20, paddingLeft: 12, paddingRight: 12, paddingBottom: 12 }}>
+        <ResponsiveTreeMap
+          data={treeData}
+          identity="name"
+          value="value"
+          tile="squarify"
+          leavesOnly={true}
+          innerPadding={12}
+          outerPadding={0}
+          borderWidth={0}
+          colors={['transparent']}
+          nodeComponent={({ node }) => {
+            const items = (node.data as { items?: Array<{ slug: string; name: string }> }).items || []
+            const labelHeight = 8 // space for label above border
+            const padding = 4 // px-1 + border
+            const availableWidth = node.width - padding * 2
+
+            // Calculate how many items fit and actual height needed
+            const itemCols = Math.max(1, Math.floor(availableWidth / CARD_SIZE))
+            const itemRows = Math.ceil(items.length / itemCols)
+            const contentHeight = itemRows * CARD_SIZE + 24 // pt-5 + pb-1
+
+            // Bottom-align: offset by difference between allocated and actual height
+            const topOffset = Math.max(0, node.height - contentHeight)
+
+            return (
+              <g transform={`translate(${node.x},${node.y})`}>
+                <foreignObject
+                  width={node.width}
+                  height={node.height + labelHeight}
+                  y={-labelHeight}
+                  style={{ overflow: 'visible' }}
+                >
+                  <div style={{ marginTop: labelHeight + topOffset }}>
+                    <LabeledContainer
+                      label={`${node.id} [${items.length}]`}
+                      style={{ width: itemCols * CARD_SIZE + padding * 2 + 2, height: contentHeight }}
+                    >
+                      <div
+                        className="flex flex-wrap content-start"
+                        style={{ width: itemCols * CARD_SIZE }}
+                      >
+                        {items.map((item) => (
+                          <ItemTile key={item.slug} slug={item.slug} name={item.name} />
+                        ))}
+                      </div>
+                    </LabeledContainer>
+                  </div>
+                </foreignObject>
+              </g>
+            )
+          }}
+        />
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ export function ItemTile({ slug, name }: ItemTileProps) {
 
   return (
     <div
-      className="w-16 h-16 flex flex-col items-center justify-center gap-0.5 p-1 rounded border border-border"
+      className="w-16 h-16 flex flex-col items-center justify-center gap-0.5 p-1"
       title={name}
     >
       <div className="w-7 h-7 flex-shrink-0 flex items-center justify-center">
@@ -24,7 +24,7 @@ export function ItemTile({ slug, name }: ItemTileProps) {
           className="w-full h-full object-contain hidden dark:block"
         />
       </div>
-      <span className="text-[8px] text-muted-foreground w-full text-center leading-tight truncate">
+      <span className="text-[8px] text-muted-foreground w-full text-center leading-tight truncate mt-1">
         {shortName}
       </span>
     </div>
