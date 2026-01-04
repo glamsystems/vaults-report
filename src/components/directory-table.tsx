@@ -21,6 +21,7 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar'
 import type { DirectoryEntry, GroupedDirectory } from '@/lib/directory'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface DirectoryTableProps {
   data: GroupedDirectory[]
@@ -287,6 +288,7 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedChains, setSelectedChains] = useState<string[]>([])
   const [isDark, setIsDark] = useState(false)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains('dark'))
@@ -399,38 +401,52 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
                 </TableCell>
               </TableRow>
               {/* Entry Rows */}
-              {group.items.map((entry) => (
-                <HoverCard key={entry.slug} openDelay={200} closeDelay={100}>
-                  <HoverCardTrigger asChild>
-                    <TableRow className="cursor-default">
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={`${import.meta.env.BASE_URL}assets/logos/normalized/${entry.slug}-${isDark ? 'dark' : 'light'}.svg`}
-                            alt={entry.name}
-                            className="size-6"
-                          />
-                          <span className="font-medium">{entry.name}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <p className="font-[family-name:var(--font-geist-sans)] text-muted-foreground line-clamp-2 whitespace-normal max-w-md">
-                          {entry.description}
-                        </p>
-                      </TableCell>
-                      <TableCell>
-                        <ChainBadges chains={entry.chains} />
-                      </TableCell>
-                      <TableCell>
-                        <LinkIcons entry={entry} />
-                      </TableCell>
-                    </TableRow>
-                  </HoverCardTrigger>
-                  <HoverCardContent side="bottom" align="end" className="w-96">
-                    <ProjectHoverContent entry={entry} category={group.category} isDark={isDark} />
-                  </HoverCardContent>
-                </HoverCard>
-              ))}
+              {group.items.map((entry) => {
+                const row = (
+                  <TableRow
+                    key={entry.slug}
+                    className="cursor-pointer"
+                    onClick={() => window.open(entry.url, '_blank')}
+                  >
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={`${import.meta.env.BASE_URL}assets/logos/normalized/${entry.slug}-${isDark ? 'dark' : 'light'}.svg`}
+                          alt={entry.name}
+                          className="size-6"
+                        />
+                        <span className="font-medium">{entry.name}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <p className="font-[family-name:var(--font-geist-sans)] text-muted-foreground line-clamp-2 whitespace-normal max-w-md">
+                        {entry.description}
+                      </p>
+                    </TableCell>
+                    <TableCell>
+                      <ChainBadges chains={entry.chains} />
+                    </TableCell>
+                    <TableCell>
+                      <LinkIcons entry={entry} />
+                    </TableCell>
+                  </TableRow>
+                )
+
+                if (isMobile) {
+                  return row
+                }
+
+                return (
+                  <HoverCard key={entry.slug} openDelay={200} closeDelay={100}>
+                    <HoverCardTrigger asChild>
+                      {row}
+                    </HoverCardTrigger>
+                    <HoverCardContent side="bottom" align="end" className="w-96">
+                      <ProjectHoverContent entry={entry} category={group.category} isDark={isDark} />
+                    </HoverCardContent>
+                  </HoverCard>
+                )
+              })}
             </Fragment>
           ))}
         </TableBody>
