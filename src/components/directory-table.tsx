@@ -1,5 +1,5 @@
 import { Fragment, useState, useMemo, useEffect } from 'react'
-import { GithubLogo, FileText, XLogo, Globe, LinkedinLogo, EnvelopeSimple, TelegramLogo, X, Funnel } from '@phosphor-icons/react'
+import { GithubLogo, FileText, XLogo, Globe, LinkedinLogo, EnvelopeSimple, TelegramLogo, X, Funnel, MagnifyingGlass } from '@phosphor-icons/react'
 import {
   Table,
   TableBody,
@@ -170,6 +170,8 @@ function ProjectHoverContent({ entry, category, isDark }: { entry: DirectoryEntr
 }
 
 interface FilterToolbarProps {
+  search: string
+  onSearchChange: (value: string) => void
   categories: string[]
   chains: string[]
   selectedCategories: string[]
@@ -180,6 +182,8 @@ interface FilterToolbarProps {
 }
 
 function FilterToolbar({
+  search,
+  onSearchChange,
   categories,
   chains,
   selectedCategories,
@@ -188,10 +192,20 @@ function FilterToolbar({
   onChainChange,
   onClearAll,
 }: FilterToolbarProps) {
-  const hasFilters = selectedCategories.length > 0 || selectedChains.length > 0
+  const hasFilters = selectedCategories.length > 0 || selectedChains.length > 0 || search.length > 0
 
   return (
     <div className="flex items-center gap-2 mb-4 flex-wrap">
+      <div className="relative">
+        <MagnifyingGlass className="absolute left-2 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="h-8 w-48 rounded-none border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+        />
+      </div>
       <Funnel className="size-4 text-muted-foreground" />
       <Menubar>
         <MenubarMenu>
@@ -269,6 +283,7 @@ function FilterToolbar({
 }
 
 export function DirectoryTable({ data }: DirectoryTableProps) {
+  const [search, setSearch] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedChains, setSelectedChains] = useState<string[]>([])
   const [isDark, setIsDark] = useState(false)
@@ -302,21 +317,30 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
     }
   }, [data])
 
-  // Filter data based on selections
+  // Filter data based on search and selections
   const filteredData = useMemo(() => {
+    const searchLower = search.toLowerCase()
     return data
       .filter((group) =>
         selectedCategories.length === 0 || selectedCategories.includes(group.category)
       )
       .map((group) => ({
         ...group,
-        items: group.items.filter((item) =>
-          selectedChains.length === 0 ||
-          item.chains.some((chain) => selectedChains.includes(chain))
-        ),
+        items: group.items.filter((item) => {
+          const matchesSearch =
+            search === '' ||
+            item.name.toLowerCase().includes(searchLower) ||
+            item.description.toLowerCase().includes(searchLower)
+
+          const matchesChains =
+            selectedChains.length === 0 ||
+            item.chains.some((chain) => selectedChains.includes(chain))
+
+          return matchesSearch && matchesChains
+        }),
       }))
       .filter((group) => group.items.length > 0)
-  }, [data, selectedCategories, selectedChains])
+  }, [data, search, selectedCategories, selectedChains])
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>
@@ -335,6 +359,7 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
   }
 
   const handleClearAll = () => {
+    setSearch('')
     setSelectedCategories([])
     setSelectedChains([])
   }
@@ -342,6 +367,8 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
   return (
     <div>
       <FilterToolbar
+        search={search}
+        onSearchChange={setSearch}
         categories={categories}
         chains={chains}
         selectedCategories={selectedCategories}
