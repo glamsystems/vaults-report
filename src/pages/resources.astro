@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { DashboardLayout } from '../components/layout/DashboardLayout'
+import { ResourcesTable } from '../components/resources-table'
+import { loadResources } from '../lib/resources'
+
+const resources = loadResources()
+---
+
+<Layout>
+  <DashboardLayout client:load title="Resources">
+    <ResourcesTable client:load data={resources} />
+  </DashboardLayout>
+</Layout>

@@ -5,8 +5,42 @@ import { DashboardLayout } from '../components/layout/DashboardLayout'
 
 <Layout>
   <DashboardLayout client:load title="About">
-    <p class="text-sm text-muted-foreground">
-      Informational content coming soon.
-    </p>
+    <div class="space-y-8 max-w-2xl mx-auto">
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-medium">The Platform</h3>
+        <p class="text-base text-muted-foreground font-[family-name:var(--font-geist-sans)]">
+          Vaults Report provides the digital asset industry with a neutral reference for vault infrastructure and onchain asset management. The project operates independently to ensure listings remain unbiased and openly maintained.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-medium">The Taxonomy</h3>
+        <p class="text-base text-muted-foreground font-[family-name:var(--font-geist-sans)]">
+          A community-curated classification system cataloging vault protocols, asset managers, and supporting infrastructure. Projects are organized into five categories: <span class="text-foreground">Asset Tokenization</span>, <span class="text-foreground">Infrastructure</span>, <span class="text-foreground">Lending & Yield</span>, <span class="text-foreground">Management & Curation</span>, and <span class="text-foreground">Tooling</span>. The taxonomy is designed to update continuously as new protocols launch and existing projects expand.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-medium">The Directory</h3>
+        <p class="text-base text-muted-foreground font-[family-name:var(--font-geist-sans)]">
+          Built on the taxonomy, the directory collects verified metadata including documentation, GitHub repositories, and social handles. All descriptions maintain a neutral tone, documenting what each protocol does without promotional language.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-medium">How to Contribute</h3>
+        <p class="text-base text-muted-foreground font-[family-name:var(--font-geist-sans)]">
+          We are grateful to everyone in the community who helps by contributing to the taxonomy and directory. If you want to add a project, suggest improvements, or contribute in any other way, visit our <a href="https://github.com/glamsystems/vaults-report" target="_blank" rel="noopener noreferrer" class="font-medium text-primary hover:text-primary/80">GitHub repository</a>.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-medium">About GLAM</h3>
+        <p class="text-base text-muted-foreground font-[family-name:var(--font-geist-sans)]">
+          Vaults Report is maintained by <a href="https://glam.systems" target="_blank" rel="noopener noreferrer" class="font-medium text-primary hover:text-primary/80">GLAM</a>.
+        </p>
+      </section>
+    </div>
   </DashboardLayout>
 </Layout>

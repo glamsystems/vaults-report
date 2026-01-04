@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Globe, FolderOpen, Info } from "@phosphor-icons/react"
+import { FolderOpen, Books, Info } from "@phosphor-icons/react"
 
 import {
   Sidebar,
@@ -14,12 +14,16 @@ import {
   SidebarHeader,
   SidebarFooter,
   SidebarRail,
+  SidebarSeparator,
 } from "@/components/ui/sidebar"
 
 const navItems = [
-  // { title: "Ecosystem", url: "/", icon: Globe },
   { title: "Directory", url: "/", icon: FolderOpen },
-  // { title: "About", url: "/about", icon: Info },
+  { title: "Resources", url: "/resources", icon: Books },
+]
+
+const secondaryItems = [
+  { title: "About", url: "/about", icon: Info },
 ]
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
@@ -61,6 +65,19 @@ export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
                   {item.title === "Directory" && directoryCount && (
                     <SidebarMenuBadge className="text-muted-foreground">[{directoryCount}]</SidebarMenuBadge>
                   )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+            <SidebarSeparator className="my-2" />
+            <SidebarMenu>
+              {secondaryItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
