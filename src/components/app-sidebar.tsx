@@ -20,8 +20,8 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile"
 
 const navItems = [
-  { title: "Ecosystem", url: "/ecosystem", icon: Globe, desktopOnly: true },
   { title: "Directory", url: "/directory", icon: FolderOpen },
+  { title: "Ecosystem", url: "/ecosystem", icon: Globe, desktopOnly: true },
   { title: "Resources", url: "/resources", icon: Books },
 ]
 
