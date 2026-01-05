@@ -1,4 +1,5 @@
 name,url,description,category,source,date
+Vaultcast 2026,https://glam.systems/blog/vaultcast-2026,"Independent forecasts point to 2 to 3x growth in onchain vault AUM in 2026, driven by institutional distribution and an expanding manager landscape.",News,GLAM,2026-01-05
 Gauntlet DeFi 101: Vaults and Curators,vaultbook.gauntlet.xyz/introduction/defi-101-vaults-and-curators,"Educational guide explaining DeFi vault mechanics and the role of curators in managing yield strategies.",Education,Gauntlet
 Curators Explained,https://morpho.org/blog/curators-explained/,"Blog post explaining the role of curators in DeFi vaults.",Education,Morpho,2025-12-22
 Vaults.fyi,vaults.fyi,"Vault aggregator and discovery platform tracking yields and TVL across DeFi vault protocols.",Tools,Vaults.fyi
@@ -6,7 +7,6 @@ DefiLlama Onchain Capital Allocators,defillama.com/protocols/onchain-capital-all
 DefiLlama Risk Curators,defillama.com/protocols/risk-curators,"DefiLlama category tracking TVL for risk curation and vault management protocols.",Data,DefiLlama
 Vaults: The Future of Noncustodial Finance,https://morpho.org/blog/vaults-the-future-of-noncustodial-finance/,"Blog post explaining the future of noncustodial finance.",Education,Morpho,2025-12-17
 Why Asset Managers Need Infrastructure Built for Internet Capital Markets,https://www.glam.systems/blog/why-managers-need-icm-infra,"Blog post explaining the importance of infrastructure for internet capital markets.",Education,GLAM,2025-08-12
-Thesis: Asset Management in Internet Capital Markets,https://www.glam.systems/blog/thesis,"Blog post explaining the role of asset managers in internet capital markets.",Education,GLAM,2025-04-29
 Vault Summit,https://www.youtube.com/@VaultSummit,"Talks and panels on institutional DeFi vault strategies, including multi-strategy vault design, risk management, governance, and structured yield products.",Video,Vault Summit,2025-11-18
 Stop Chasing APY: The Risk Metrics DeFi Really Needs,https://avantgarde.finance/post/stop-chasing-apy-the-risk-metrics-defi-really-needs,"Blog post explaining the importance of risk metrics in DeFi.",Education,AvantGarde Finance,2025-12-08
 The State of Onchain Yield: From Stablecoins to DeFi and Beyond,https://www.galaxy.com/insights/research/the-state-of-onchain-yield,"Comprehensive framework for comparing onchain yield sources across stablecoins, staking, lending, LPing, and structured products with risk-adjusted analysis.",Education,Galaxy,2025-09-09
