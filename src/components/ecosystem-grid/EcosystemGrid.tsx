@@ -90,14 +90,14 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
     const ctx = canvas.getContext('2d')
     if (!ctx) return null
 
-    // Background
-    ctx.fillStyle = isDark ? '#09090b' : '#ffffff'
+    // Background - use theme colors
+    ctx.fillStyle = isDark ? '#29271f' : '#f0efeb'
     ctx.fillRect(0, 0, EXPORT_WIDTH, EXPORT_HEIGHT)
 
-    // Hex colors to temporarily replace oklch CSS variables
+    // Hex colors to temporarily replace CSS variables (using theme colors)
     const hexColors = isDark
-      ? { background: '#09090b', border: '#27272a', foreground: '#fafafa', mutedForeground: '#a1a1aa' }
-      : { background: '#ffffff', border: '#e4e4e7', foreground: '#09090b', mutedForeground: '#71717a' }
+      ? { background: '#29271f', border: '#4f4a3c', foreground: '#f0efeb', mutedForeground: '#b7af9f' }
+      : { background: '#f0efeb', border: '#d3cec3', foreground: '#29271f', mutedForeground: '#655e4b' }
 
     // Store original CSS variable values
     const root = document.documentElement
@@ -151,7 +151,7 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
 
     // Header (drawn after chart so it appears on top)
     const year = new Date().getFullYear()
-    ctx.fillStyle = isDark ? '#fafafa' : '#09090b'
+    ctx.fillStyle = isDark ? '#f0efeb' : '#29271f'
     ctx.textBaseline = 'alphabetic'
     const headerY = PADDING * 4 // baseline position
 
@@ -173,21 +173,21 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
     // Draw "Vaults_Report" right-aligned (draw from left to right, starting at calculated position)
     let vaultX = rightEdge - vaultsReportTotal
 
-    ctx.fillStyle = isDark ? '#fafafa' : '#09090b'
+    ctx.fillStyle = isDark ? '#f0efeb' : '#29271f'
     ctx.fillText('Vaults', vaultX, headerY)
     vaultX += vaultsWidth
 
-    ctx.fillStyle = '#8FCB4D' // accent green
+    ctx.fillStyle = isDark ? '#8fcb4d' : '#578d23' // accent green (theme primary)
     ctx.fillText('_', vaultX, headerY)
     vaultX += underscoreWidth
 
-    ctx.fillStyle = isDark ? '#fafafa' : '#09090b'
+    ctx.fillStyle = isDark ? '#f0efeb' : '#29271f'
     ctx.fillText('Report', vaultX, headerY)
 
     // Draw "by GLAM *.+" right-aligned below
     ctx.font = '35px system-ui, -apple-system, sans-serif'
     ctx.textAlign = 'right'
-    ctx.fillStyle = isDark ? 'rgba(161, 161, 170, 0.9)' : 'rgba(113, 113, 122, 0.9)'
+    ctx.fillStyle = isDark ? 'rgba(183, 175, 159, 0.9)' : 'rgba(101, 94, 75, 0.9)'
     ctx.fillText('by GLAM *.+', rightEdge, headerY + 55)
 
     // Footer
@@ -196,7 +196,7 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
     ctx.textBaseline = 'bottom'
 
     // All footer text same muted color at 50% opacity
-    ctx.fillStyle = isDark ? 'rgba(161, 161, 170, 0.5)' : 'rgba(113, 113, 122, 0.5)'
+    ctx.fillStyle = isDark ? 'rgba(183, 175, 159, 0.5)' : 'rgba(101, 94, 75, 0.5)'
 
     // Left: copyright
     ctx.textAlign = 'left'

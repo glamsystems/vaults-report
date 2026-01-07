@@ -96,7 +96,7 @@ export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
             href="https://x.com/vaultsreport"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 border px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted group-data-[collapsible=icon]:p-2"
+            className="flex-1 flex items-center justify-center gap-2 border px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-sidebar-accent group-data-[collapsible=icon]:p-2"
           >
             <XLogo className="size-4" />
             <span className="group-data-[collapsible=icon]:hidden">Follow</span>
@@ -105,7 +105,7 @@ export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
             href="https://github.com/glamsystems/vaults-report"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 border px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted group-data-[collapsible=icon]:p-2"
+            className="flex-1 flex items-center justify-center gap-2 border px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-sidebar-accent group-data-[collapsible=icon]:p-2"
           >
             <GitHubLogoIcon className="size-4" />
             <span className="group-data-[collapsible=icon]:hidden">GitHub</span>
@@ -115,7 +115,7 @@ export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
           href="https://glam.systems"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-background text-foreground flex min-w-0 flex-1 flex-col items-start gap-6 border border-dashed p-4 sm:p-6 group-data-[collapsible=icon]:aspect-square group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0"
+          className="bg-pampas-100 dark:bg-zeus-950 text-foreground flex min-w-0 flex-1 flex-col items-start gap-6 border border-dashed p-4 sm:p-6 group-data-[collapsible=icon]:aspect-square group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0"
         >
           <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 group-data-[collapsible=icon]:hidden">
             A public good initiative maintained by{" "}
