@@ -42,7 +42,7 @@ export function AppSidebar({ directoryCount, ...props }: AppSidebarProps) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">
               <a href={import.meta.env.BASE_URL}>
                 <div className="bg-foreground text-background flex aspect-square size-8 items-center justify-center rounded-lg text-sm">
                   VR<span className="text-primary">_</span>
