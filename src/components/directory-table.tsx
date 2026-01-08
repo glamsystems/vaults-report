@@ -285,7 +285,7 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
               {/* Category Header Row */}
               <TableRow className="bg-muted/50 hover:bg-muted/50">
                 <TableCell colSpan={4} className="py-3">
-                  <span className="font-medium">{group.category}</span>
+                  <span className="font-normal">{group.category}</span>
                   <span className="text-muted-foreground ml-2">
                     [{group.items.length}]
                   </span>

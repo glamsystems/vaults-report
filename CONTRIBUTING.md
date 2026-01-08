@@ -4,7 +4,7 @@ Guidelines for adding protocols and suggesting changes.
 
 ## Adding a Protocol
 
-1. **Check scope.** Must be vault adjacent (see [TAXONOMY.md](TAXONOMY.md))
+1. **Check scope.** Must be vault adjacent (see [TAXONOMY](TAXONOMY.md))
 2. **Verify it's not listed.** Search `directory.csv` first
 3. **Gather required fields:**
 
@@ -36,4 +36,4 @@ Guidelines for adding protocols and suggesting changes.
 
 ## Code of Conduct
 
-See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+See [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)
