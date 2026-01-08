@@ -1,4 +1,12 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
+
+declare global {
+  interface Window {
+    umami?: {
+      track: (event: string, data?: Record<string, string | number>) => void
+    }
+  }
+}
 import { ArrowSquareOut, MagnifyingGlass, Funnel, X } from '@phosphor-icons/react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import {
@@ -25,6 +33,7 @@ interface ResourcesTableProps {
 interface FilterToolbarProps {
   search: string
   onSearchChange: (value: string) => void
+  onSearchBlur: () => void
   categories: string[]
   selectedCategories: string[]
   onCategoryChange: (category: string) => void
@@ -38,6 +47,7 @@ interface FilterToolbarProps {
 function FilterToolbar({
   search,
   onSearchChange,
+  onSearchBlur,
   categories,
   selectedCategories,
   onCategoryChange,
@@ -58,6 +68,7 @@ function FilterToolbar({
           placeholder="Search..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
+          onBlur={onSearchBlur}
           className="h-8 w-48 rounded-none border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         />
       </div>
@@ -182,19 +193,23 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
   }, [data, search, selectedCategories, selectedSources])
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    )
+    setSelectedCategories((prev) => {
+      const isAdding = !prev.includes(category)
+      if (isAdding) {
+        window.umami?.track('filter_applied', { type: 'category', value: category })
+      }
+      return isAdding ? [...prev, category] : prev.filter((c) => c !== category)
+    })
   }
 
   const handleSourceChange = (source: string) => {
-    setSelectedSources((prev) =>
-      prev.includes(source)
-        ? prev.filter((s) => s !== source)
-        : [...prev, source]
-    )
+    setSelectedSources((prev) => {
+      const isAdding = !prev.includes(source)
+      if (isAdding) {
+        window.umami?.track('filter_applied', { type: 'source', value: source })
+      }
+      return isAdding ? [...prev, source] : prev.filter((s) => s !== source)
+    })
   }
 
   const handleClearAll = () => {
@@ -203,11 +218,23 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
     setSelectedSources([])
   }
 
+  const handleSearchBlur = useCallback(() => {
+    if (search.trim()) {
+      window.umami?.track('search_used', { page: 'resources' })
+    }
+  }, [search])
+
+  const handleResourceClick = useCallback((resource: Resource) => {
+    window.umami?.track('resource_click', { resource: resource.name, category: resource.category })
+    window.open(resource.url, '_blank')
+  }, [])
+
   return (
     <div>
       <FilterToolbar
         search={search}
         onSearchChange={setSearch}
+        onSearchBlur={handleSearchBlur}
         categories={categories}
         selectedCategories={selectedCategories}
         onCategoryChange={handleCategoryChange}
@@ -232,7 +259,7 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
             <TableRow
               key={resource.url}
               className="cursor-pointer"
-              onClick={() => window.open(resource.url, '_blank')}
+              onClick={() => handleResourceClick(resource)}
             >
               <TableCell className="max-w-[280px]">
                 <span className="font-medium font-[family-name:var(--font-geist-sans)] truncate block" title={resource.name}>

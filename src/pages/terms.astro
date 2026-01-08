@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { DashboardLayout } from '../components/layout/DashboardLayout'
+import { getGroupedDirectory } from '../lib/directory'
+
+const groupedData = getGroupedDirectory()
+const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
+---
+
+<Layout>
+  <DashboardLayout client:load title="Terms of Service" directoryCount={totalProjects}>
+    <div class="space-y-8 max-w-2xl mx-auto">
+      <p class="text-xs text-muted-foreground">Last updated: January 2025</p>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Acceptance</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          By using Vaults Report ("Services"), you agree to these Terms of Service ("Terms") with Lamport Systems, Inc. ("we," "us," or "our"). If you do not agree, please do not use the Services.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Use of Services</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          You agree to use the Services lawfully and responsibly. You must not interfere with, disrupt, or misuse the Services, nor attempt to gain unauthorized access to systems or data.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Intellectual Property</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          All content, code, trademarks, and materials provided via Vaults Report are owned by Lamport Systems, Inc. or licensed third parties. You may not reproduce, distribute, or create derivative works without prior written permission.
+        </p>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          You may cite and link to Vaults Report for non-commercial purposes with appropriate attribution.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Disclaimers</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          The Services are provided "as is" and "as available." We do not warrant that they will be error-free, uninterrupted, or suitable for any particular purpose.
+        </p>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          Vaults Report does not provide investment advice. Nothing in the Services should be construed as such. You are solely responsible for your decisions and compliance with applicable laws.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Limitation of Liability</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          To the fullest extent allowed by law, Lamport Systems, Inc. is not liable for any direct, indirect, incidental, or consequential damages resulting from your use of the Services, including but not limited to data loss, security incidents, or financial losses.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Governing Law</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          These Terms are governed by the laws of the State of Delaware. Any disputes shall be subject to the exclusive jurisdiction of Delaware courts.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Changes</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          We may update these Terms. Continued use after changes constitutes acceptance.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Contact</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          For inquiries: <a href="mailto:legal@glam.systems" class="text-primary hover:text-primary/80">legal@glam.systems</a>
+        </p>
+      </section>
+    </div>
+  </DashboardLayout>
+</Layout>

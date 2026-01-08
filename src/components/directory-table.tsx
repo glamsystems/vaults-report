@@ -1,4 +1,12 @@
-import { Fragment, useState, useMemo, useEffect } from 'react'
+import { Fragment, useState, useMemo, useEffect, useCallback } from 'react'
+
+declare global {
+  interface Window {
+    umami?: {
+      track: (event: string, data?: Record<string, string | number>) => void
+    }
+  }
+}
 import { X, Funnel, MagnifyingGlass } from '@phosphor-icons/react'
 import {
   Table,
@@ -31,6 +39,7 @@ interface DirectoryTableProps {
 interface FilterToolbarProps {
   search: string
   onSearchChange: (value: string) => void
+  onSearchBlur: () => void
   categories: string[]
   chains: string[]
   selectedCategories: string[]
@@ -44,6 +53,7 @@ interface FilterToolbarProps {
 function FilterToolbar({
   search,
   onSearchChange,
+  onSearchBlur,
   categories,
   chains,
   selectedCategories,
@@ -64,6 +74,7 @@ function FilterToolbar({
           placeholder="Search..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
+          onBlur={onSearchBlur}
           className="h-8 w-48 rounded-none border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         />
       </div>
@@ -209,20 +220,28 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
   }, [data, search, selectedCategories, selectedChains])
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    )
+    setSelectedCategories((prev) => {
+      const isAdding = !prev.includes(category)
+      if (isAdding) {
+        window.umami?.track('filter_applied', { type: 'category', value: category })
+      }
+      return isAdding ? [...prev, category] : prev.filter((c) => c !== category)
+    })
   }
 
   const handleChainChange = (chain: string) => {
-    setSelectedChains((prev) =>
-      prev.includes(chain)
-        ? prev.filter((c) => c !== chain)
-        : [...prev, chain]
-    )
+    setSelectedChains((prev) => {
+      const isAdding = !prev.includes(chain)
+      if (isAdding) {
+        window.umami?.track('filter_applied', { type: 'chain', value: chain })
+      }
+      return isAdding ? [...prev, chain] : prev.filter((c) => c !== chain)
+    })
   }
+
+  const handleCardView = useCallback((project: string, category: string) => {
+    window.umami?.track('project_card_view', { project, category })
+  }, [])
 
   const handleClearAll = () => {
     setSearch('')
@@ -230,11 +249,18 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
     setSelectedChains([])
   }
 
+  const handleSearchBlur = useCallback(() => {
+    if (search.trim()) {
+      window.umami?.track('search_used', { page: 'directory' })
+    }
+  }, [search])
+
   return (
     <div>
       <FilterToolbar
         search={search}
         onSearchChange={setSearch}
+        onSearchBlur={handleSearchBlur}
         categories={categories}
         chains={chains}
         selectedCategories={selectedCategories}
@@ -298,7 +324,12 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
                 }
 
                 return (
-                  <HoverCard key={entry.slug} openDelay={200} closeDelay={100}>
+                  <HoverCard
+                    key={entry.slug}
+                    openDelay={200}
+                    closeDelay={100}
+                    onOpenChange={(open) => open && handleCardView(entry.name, group.category)}
+                  >
                     <HoverCardTrigger asChild>
                       {row}
                     </HoverCardTrigger>

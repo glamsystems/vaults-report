@@ -29,7 +29,7 @@ export function ChainBadges({ chains, maxRows = 1 }: { chains: string[]; maxRows
 }
 
 export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?: boolean }) {
-  const { url, github, docs, twitter, linkedin, email, telegram } = entry
+  const { name, url, github, docs, twitter, linkedin, email, telegram } = entry
 
   return (
     <div className="flex items-center gap-2">
@@ -39,6 +39,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
         rel="noopener noreferrer"
         className="text-muted-foreground hover:text-foreground transition-colors"
         title="Website"
+        data-umami-event="outbound_click"
+        data-umami-event-type="website"
+        data-umami-event-project={name}
       >
         <Globe className="size-5" />
       </a>
@@ -49,6 +52,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="GitHub"
+          data-umami-event="outbound_click"
+          data-umami-event-type="github"
+          data-umami-event-project={name}
         >
           <GithubLogo className="size-5" />
         </a>
@@ -60,6 +66,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="Documentation"
+          data-umami-event="outbound_click"
+          data-umami-event-type="docs"
+          data-umami-event-project={name}
         >
           <FileText className="size-5" />
         </a>
@@ -71,6 +80,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="X/Twitter"
+          data-umami-event="outbound_click"
+          data-umami-event-type="twitter"
+          data-umami-event-project={name}
         >
           <XLogo className="size-5" />
         </a>
@@ -82,6 +94,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="LinkedIn"
+          data-umami-event="outbound_click"
+          data-umami-event-type="linkedin"
+          data-umami-event-project={name}
         >
           <LinkedinLogo className="size-5" />
         </a>
@@ -91,6 +106,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
           href={`mailto:${email}`}
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="Email"
+          data-umami-event="outbound_click"
+          data-umami-event-type="email"
+          data-umami-event-project={name}
         >
           <EnvelopeSimple className="size-5" />
         </a>
@@ -102,6 +120,9 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground transition-colors"
           title="Telegram"
+          data-umami-event="outbound_click"
+          data-umami-event-type="telegram"
+          data-umami-event-project={name}
         >
           <TelegramLogo className="size-5" />
         </a>

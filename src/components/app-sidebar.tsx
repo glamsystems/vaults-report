@@ -164,6 +164,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 border px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-sidebar-accent group-data-[collapsible=icon]:p-2"
+            data-umami-event="twitter_click"
           >
             <XLogo className="size-4" />
             <span className="group-data-[collapsible=icon]:hidden">Follow</span>
@@ -173,9 +174,10 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 border px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-sidebar-accent group-data-[collapsible=icon]:p-2"
+            data-umami-event="github_click"
           >
             <GitHubLogoIcon className="size-4" />
-            <span className="group-data-[collapsible=icon]:hidden">GitHub</span>
+            <span className="group-data-[collapsible=icon]:hidden">Contribute</span>
           </a>
         </div>
         <a
@@ -183,6 +185,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
           target="_blank"
           rel="noopener noreferrer"
           className="bg-pampas-100 dark:bg-zeus-950 text-foreground flex min-w-0 flex-1 flex-col items-start gap-6 border border-dashed p-4 sm:p-6 group-data-[collapsible=icon]:aspect-square group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0"
+          data-umami-event="glam_click"
         >
           <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 group-data-[collapsible=icon]:hidden">
             A public good initiative maintained by{" "}

@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { DashboardLayout } from '../components/layout/DashboardLayout'
+import { getGroupedDirectory } from '../lib/directory'
+
+const groupedData = getGroupedDirectory()
+const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
+---
+
+<Layout>
+  <DashboardLayout client:load title="Privacy Policy" directoryCount={totalProjects}>
+    <div class="space-y-8 max-w-2xl mx-auto">
+      <p class="text-xs text-muted-foreground">Last updated: January 2025</p>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Overview</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          This Privacy Policy explains how Lamport Systems, Inc. ("we," "us," or "our") collects, uses, and protects information when you use Vaults Report.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Information We Collect</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">We collect non-personal usage data to improve the site, including:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2 text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          <li>Browser and device information</li>
+          <li>Pages visited and interactions</li>
+          <li>Approximate location based on IP address</li>
+        </ul>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">We do not collect personally identifiable information without your consent. We respect browser Do Not Track settings.</p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">How We Use Information</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">We use collected data to:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2 text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          <li>Improve and maintain the site</li>
+          <li>Analyze usage patterns</li>
+          <li>Ensure security</li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Third Parties</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          We may share anonymized, aggregated data with service providers who help operate the site. We do not sell or rent personal data.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Data Security</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          We use reasonable measures to protect data, but no system is completely secure. Data is retained only as long as necessary.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Your Rights</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          Depending on your jurisdiction, you may have rights to access, correct, or delete your data. Contact us at <a href="mailto:legal@glam.systems" class="text-primary hover:text-primary/80">legal@glam.systems</a>.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-lg font-normal font-[family-name:var(--font-geist-sans)]">Changes</h3>
+        <p class="text-base text-foreground font-[family-name:var(--font-geist-sans)]">
+          We may update this policy. Continued use after changes constitutes acceptance.
+        </p>
+      </section>
+    </div>
+  </DashboardLayout>
+</Layout>

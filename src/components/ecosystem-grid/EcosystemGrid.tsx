@@ -1,4 +1,12 @@
 import { useRef, useState, useEffect } from 'react'
+
+declare global {
+  interface Window {
+    umami?: {
+      track: (event: string, data?: Record<string, string | number>) => void
+    }
+  }
+}
 import { ResponsiveTreeMap } from '@nivo/treemap'
 import { LabeledContainer } from './LabeledContainer'
 import { ItemTile } from './ItemTile'
@@ -212,6 +220,8 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
   const handleExport = async (format: ExportFormat) => {
     const canvas = await generateExportCanvas()
     if (!canvas) return
+
+    window.umami?.track('map_download', { format })
 
     const year = new Date().getFullYear()
     const mimeType = format === 'png' ? 'image/png' : 'image/jpeg'

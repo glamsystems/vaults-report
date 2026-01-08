@@ -1,4 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+
+declare global {
+  interface Window {
+    umami?: {
+      track: (event: string, data?: Record<string, string | number>) => void
+    }
+  }
+}
 import {
   HoverCard,
   HoverCardContent,
@@ -26,11 +34,15 @@ export function ItemTile({ entry, category }: ItemTileProps) {
     return () => observer.disconnect()
   }, [])
 
+  const handleCardView = useCallback(() => {
+    window.umami?.track('project_card_view', { project: entry.name, category })
+  }, [entry.name, category])
+
   // Get first word only
   const shortName = entry.name.split(' ')[0]
 
   return (
-    <HoverCard openDelay={200} closeDelay={100}>
+    <HoverCard openDelay={200} closeDelay={100} onOpenChange={(open) => open && handleCardView()}>
       <HoverCardTrigger asChild>
         <div
           className="w-16 h-16 flex flex-col items-center justify-center gap-0.5 p-1 cursor-pointer"
