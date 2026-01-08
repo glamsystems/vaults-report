@@ -34,12 +34,12 @@ export function LearnNav({ prevPage, nextPage, lastModified }: LearnNavProps) {
           </a>
         )}
       </div>
-          {lastModified && (
-              <p className="text-sm text-muted-foreground mb-6">
-                  Last updated: {lastModified}
-              </p>
-          )}
       </div>
+        {lastModified && (
+            <p className="text-sm text-muted-foreground mt-18 opacity-50">
+                Last updated: {lastModified}
+            </p>
+        )}
     </nav>
   )
 }
