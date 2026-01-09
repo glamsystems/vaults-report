@@ -1,0 +1,60 @@
+---
+title: What Is a Vault
+order: 2
+---
+
+# What Is a Vault
+
+A vault is a smart contract that pools capital and deploys it according to defined logic. Beyond that baseline, implementations vary significantly. Understanding what type of vault you are evaluating is the first step in assessing its guarantees.
+
+## Vault Archetypes
+
+| Archetype | Defining Characteristic | Trusted Surface |
+| :---- | :---- | :---- |
+| **Wrapper vaults** | Single underlying position | Narrowest: just the wrapper \+ one destination |
+| **Modular vaults** | Integration set can expand over time; new destinations added, old removed | Expandable; grows as integrations are enabled |
+| **Aggregator vaults** | Meta-layer routing capital to other vaults, not directly to end venues | Cascading; inherits risk from underlying vaults |
+
+## Execution Models
+
+Any architecture can operate under different execution models:
+
+**Automated**: Predefined logic executes without human discretion. Rules are fixed at deployment. Trust is in code only.
+
+**Curated**: A curator makes allocation decisions within explicit constraints set by infrastructure or owner. Cannot exceed defined parameters. Trust extends to curator judgment within bounds.
+
+**Managed**: A manager has broad discretion over operations with fewer explicit constraints. Trust extends to human judgment and operational discipline.
+
+## Core Components
+
+**The container** holds deposited assets and issues shares representing proportional ownership. Share accounting tracks each depositor's claim. ERC-4626 provides a standard interface on EVM chains, though implementations vary.
+
+**The permission system** determines who can take what actions. Roles typically include an owner with configuration authority and delegates with operational permissions.
+
+**The policy layer** constrains allowable actions regardless of who initiates them. Policies might restrict accessible protocols, cap exposures, or limit allocation rates.
+
+## What "Non-Custodial" Actually Means
+
+The term "non-custodial" is used loosely. Operationally, it should mean: depositors can always withdraw their proportional share of assets without requiring permission from any other party, enforced at the smart contract level.
+
+**Many vaults marketed as non-custodial do not meet this strict definition.** Common gaps include:
+
+**Right to withdraw vs. ability to withdraw:** You may have the contractual right to redeem shares, but if assets are deployed to illiquid positions, immediate withdrawal may be impossible.
+
+**Withdrawal mechanics matter:** Instant redemption, epoch-based (requests processed at fixed intervals), queue-based (fulfilled as liquidity arrives), and guaranteed-exit mechanisms provide different levels of assurance.
+
+**Manager authority scope:** A "non-custodial" vault may still grant managers authority to deploy 100% of assets to a single integration, effectively controlling where your capital sits even if they cannot take it outright.
+
+When evaluating non-custodial claims, ask: What specific actions can the manager take? What specific actions are prohibited at the contract level? Under what conditions can I definitely exit, and under what conditions might exit be delayed or penalized?
+
+## What Vaults Are Not
+
+**Vaults are not sources of yield.** Returns come from underlying opportunities: lending interest, liquidity fees, staking rewards. The vault is infrastructure; the yield comes from what it accesses.
+
+**Vaults do not eliminate risk.** They organize risk differently. Smart contract vulnerabilities, oracle failures, and liquidity crises in underlying protocols flow through to depositors.
+
+**Vaults are not interchangeable.** Two vaults described as "stablecoin yield" may have different architectures, risk profiles, and return characteristics.
+
+## Fees and Net Returns
+
+Vault economics typically include: management fees (percentage of assets), performance fees (percentage of gains), protocol fees (charged by infrastructure providers), and execution costs (slippage, gas). Headline APY figures rarely account for all costs. Net realized returns can differ substantially from advertised rates.

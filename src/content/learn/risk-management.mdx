@@ -1,0 +1,200 @@
+---
+title: Risk Management
+order: 6
+---
+
+# Understanding Risk
+
+Vault risk comprises distinct categories that interact under stress. Effective evaluation requires disaggregating these components and understanding how they compound.
+
+## Risk Categories and Indicators
+
+### Smart Contract Risk
+
+Onchain vaults are implemented as smart contracts (often alongside offchain operational components). Bugs can cause loss regardless of strategy soundness.
+
+**What to look for:**
+
+- Audit coverage: which components, which firms, how recently
+
+- Formal verification of critical paths
+
+- Bug bounty program (size should be commensurate with TVL at risk)
+
+- Track record: time holding significant value, ideally through at least one market stress event
+
+**Rough heuristics (not universal standards):**
+
+- Multiple audits from firms with track records auditing comparable TVL and complexity
+
+- Active bug bounty program
+
+- Operating history through varying market conditions
+
+### Oracle Risk
+
+Strategies depending on price feeds inherit manipulation and failure risks.
+
+**What to look for:**
+
+- Which oracle providers are used
+
+- Integrity checks: staleness thresholds, confidence intervals, reference price comparison
+
+- Fallback behavior when feeds fail
+
+- Flow-through risk from underlying protocols
+
+**Rough heuristics (strategy-dependent):**
+
+- Multiple price sources with divergence checks
+
+- Staleness thresholds appropriate to strategy cadence (tighter for fast-moving collateral, looser for stable assets)
+
+- Documented fallback procedures
+
+### Governance and Upgrade Risk
+
+Authorized parties can change behavior at two distinct levels (see Architecture: Two Levels of Trust).
+
+**Protocol-level governance risk:**
+
+- Who holds the contract/program upgrade authority?
+
+- Can the protocol team change the code that is affecting all vaults?
+
+- What timelock constrains protocol upgrades?
+
+- What is the protocol's governance track record?
+
+**Vault-level governance risk:**
+
+- Who owns this specific vault?
+
+- What timelocks apply to vault configuration changes?
+
+- Can the vault owner change delegate permissions, enabled integrations, or fee settings?
+
+- What emergency capabilities exist at the vault level?
+
+**What to look for at each level:**
+
+- Upgrade/configuration authority held by multi-sig with at least one independent signer
+
+- Timelocks on risk-increasing changes exceeding your review and exit process
+
+- Separation between upgrade authority and operational authority
+
+- Documented governance procedures
+
+### Delegate and Operational Risk
+
+Human error and operational failures cause losses even when code is sound.
+
+**What to look for:**
+
+- Delegate permission scope
+
+- Onchain thresholds (or absence thereof)
+
+- Key management practices
+
+- Incident response capability
+
+**Delegate trust concentrates here**: In some architectures, delegates may operate with limited onchain constraints. A delegate with broad allocation permission may be able to concentrate exposure heavily (potentially to a single integration) unless constrained by onchain caps/policies. Trust in delegates is essential; monitoring and quick revocation capability are the mitigations.
+
+### Contagion Risk
+
+Problems in shared infrastructure can affect multiple vaults.
+
+**What to look for:**
+
+- Vault isolation guarantees
+
+- Integration isolation (per-vault enablement vs. automatic)
+
+- Protocol-level shared components
+
+- Dependency chains
+
+### Liquidity Risk
+
+Depositors cannot exit at fair value when desired.
+
+**What to look for:**
+
+- Withdrawal mechanism type
+
+- Historical withdrawal times
+
+- Behavior during high redemption demand
+
+- Underlying position liquidity
+
+### Insurance and Coverage
+
+Some protocols offer or integrate with coverage mechanisms.
+
+**What to look for:**
+
+- Does the protocol have coverage (via external provider or in-house insurance fund)?
+
+- What events are covered vs. excluded?
+
+- What is the coverage limit relative to TVL?
+
+- What is the claims process and historical payout record?
+
+Compared to many traditional fund managers (who may carry errors-and-omissions coverage and/or fidelity bonds), vault coverage is less standardized and often narrower in scope (commonly focused on smart contract exploit coverage, when present). Coverage does not eliminate risk but may reduce loss severity for covered events.
+
+### MEV Exposure
+
+Vault transactions can lose value to front-running, sandwich attacks, and other transaction ordering exploits.
+
+**What to look for:**
+
+- Swap execution quality (slippage, routing)
+
+- Liquidation exposure in lending strategies
+
+- Rebalancing predictability (can strategies be front-run?)
+
+- Use of private mempools or MEV protection
+
+MEV exposure affects net returns and can compound during high-volatility periods.
+
+### Tokenized Asset Legal Risk
+
+Tokenized assets carry legal structure risks beyond smart contract risk.
+
+**What to evaluate:**
+
+- Bankruptcy remoteness: Is the token holder's claim protected if the issuer fails?
+
+- Redemption rights: What are the contractual redemption mechanics and timelines?
+
+- Governing law: What jurisdiction governs disputes? Is it enforceable?
+
+- Regulatory status: What regulatory regime applies, and is distribution/transfer compliant in relevant jurisdictions (e.g., registration, exemptions, or restrictions)?
+
+## Stress Scenarios
+
+These risks interact under stress:
+
+**Market crash with high redemptions:** Liquidity queues extend. Oracle feeds may lag. Curator response becomes critical. Underlying protocol pauses cascade.
+
+**Exploit in integrated protocol:** Smart contract losses flow through. Affected positions may be unrecoverable. Emergency response speed matters.
+
+**Compromised curator key:** Malicious transactions possible within delegate authority. Revocation speed determines damage.
+
+## Monitoring Triggers
+
+| Metric | Review Trigger | Exit Trigger |
+| :---- | :---- | :---- |
+| **Withdrawal queue depth** (if applicable) | Exceeds documented range or your established baseline | Exceeds documented maximum or growing unboundedly |
+| **Operator/maintainer response time** | Delayed response to material events | No response to critical events |
+| **Concentration** (venue/asset/market) | Approaching defined limits | Exceeds risk tolerance thresholds |
+| **Governance/admin actions** | Any risk-increasing change (proposal or executed action) | Unexpected timelock bypass, rushed upgrade, or concerning executed change |
+| **TVL change** | Unusual pattern vs peers/baseline | Persistent abnormal outflows or sharp liquidity deterioration without clear explanation |
+
+These thresholds are illustrative. Appropriate triggers depend on vault architecture, your liquidity needs, and risk tolerance. Define your triggers before they are needed.
