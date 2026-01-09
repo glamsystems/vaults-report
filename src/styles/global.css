@@ -188,4 +188,23 @@
     @apply font-sans;
     overscroll-behavior: none;
   }
+  /* Style task list items (checkboxes) */
+  .prose ul.contains-task-list,
+  article ul.contains-task-list {
+    padding-left: 1.65em !important;
+    list-style: none !important;
+  }
+  .prose li.task-list-item,
+  article li.task-list-item {
+    padding-inline-start: 0.375em !important;
+    position: relative;
+  }
+  .prose li.task-list-item input[type="checkbox"],
+  article li.task-list-item input[type="checkbox"] {
+    position: absolute;
+    left: -1.275em;
+    top: 0.35em;
+    margin: 0;
+    accent-color: var(--primary);
+  }
 }

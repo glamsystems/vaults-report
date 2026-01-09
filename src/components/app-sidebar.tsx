@@ -33,7 +33,13 @@ const navItems = [
 ]
 
 const learnItems = [
+  { title: "What Is a Vault", url: "/learn/what-is-a-vault" },
+  { title: "Architecture", url: "/learn/architecture" },
+  { title: "Vault Stack", url: "/learn/vault-stack" },
   { title: "Categories", url: "/learn/categories" },
+  { title: "Risk Management", url: "/learn/risk-management" },
+  { title: "Evaluation Framework", url: "/learn/evaluation-framework" },
+  { title: "Outlook", url: "/learn/outlook" },
   { title: "Glossary", url: "/learn/glossary" },
 ]
 

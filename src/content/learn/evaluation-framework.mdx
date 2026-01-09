@@ -1,0 +1,186 @@
+---
+title: Evaluation Framework
+order: 7
+---
+
+# Evaluation Framework
+
+This framework enables structured diligence. It provides minimum acceptable standards, areas requiring careful assessment, and evidence checklists.
+
+## Minimum Acceptable Standards
+
+These represent baseline requirements for a conservative institutional diligence posture. Requirements apply at both protocol and vault levels (see Architecture: Two Levels of Trust).
+
+| Dimension | Level | Minimum Bar | Rationale |
+| :---- | :---- | :---- | :---- |
+| **Upgrade Authority** | Protocol | No unilateral control: multi-sig with threshold ≥2-of-n (n ≥ 3), including ≥1 signer controlled by a separate organization, OR immutable | Upgrades to shared protocol components can affect many or all vaults; single-key control is an unacceptable concentration risk |
+| **Upgrade Timelock** | Protocol | Timelock exceeding your review \+ redemption timeline, with withdrawals available during the delay (unless explicitly disclosed and accepted) | A timelock can provide an exit window before changes take effect (if withdrawals are available during the delay) |
+| **Audit Coverage** | Protocol | Core contracts audited by an independent security firm, with scope disclosed and core components covered | Unaudited core protocol code fails this minimum bar |
+| **Owner Configuration** | Vault | Multi-sig with threshold ≥2-of-n, or a timelock on config changes that prevents instant unilateral changes and provides an exit window (withdrawals available during the delay) | Single-key vault owner with instant changes creates unilateral control risk |
+| **Delegate Scope** | Vault | Permissions bounded by explicit allowlists/caps/policy checks (on-chain where possible) | Unbounded delegation enables catastrophic misuse |
+| **Withdrawal Mechanics** | Vault | Documented behavior (normal AND stress) | Must understand exit conditions |
+| **Incident Response** | Both | Documented, designated responders, and evidence of periodic testing | Needed at both levels |
+| **Monitoring** | Both | Monitoring with alerting for governance/admin changes, key role changes, and vault health signals (TVL/flows, withdrawals) | Protocol and vault events both matter |
+
+## Areas Requiring Careful Assessment
+
+Some configurations warrant thorough evaluation rather than automatic disqualification. These require understanding the specific context and rationale:
+
+**Withdrawal restrictions:** Some strategies legitimately require the ability to restrict withdrawals under certain conditions (e.g., committed capital strategies, strategies accessing illiquid positions, strategies with lock-up periods). What matters is:
+
+- Are the conditions under which withdrawals can be restricted clearly documented?
+
+- Is the restriction mechanism appropriate for the strategy type?
+
+- Are there bounds on the duration or scope of restrictions?
+
+- Is the rationale transparent and reasonable?
+
+- What recourse exists if restrictions are applied inappropriately?
+
+**Shorter timelocks:** Some vaults may operate with shorter timelocks due to strategy requirements. Evaluate whether the duration provides an adequate exit window for your specific needs.
+
+**Concentrated authority:** Some vaults vest significant authority in a single party. This may be acceptable depending on the party's track record, accountability mechanisms, and the nature of the vault.
+
+## Explicit Disqualifiers
+
+These configurations should disqualify regardless of other merits:
+
+**Protocol-level disqualifiers:**
+
+- Single-key contract/program upgrade authority without any timelock
+
+- No audit of core protocol contracts
+
+- No documented protocol incident response process
+
+**Vault-level disqualifiers:**
+
+- Single-key vault owner with instant config changes and no timelock
+
+- Offchain custody without verifiable reserve/custody reporting (e.g., attestations, audits, or regulated disclosures)
+
+- Unbounded delegate permissions with no monitoring
+
+- Withdrawal restrictions with no documented conditions or rationale
+
+## Evaluation Checklist
+
+### Protocol-Level Assessment
+
+- [ ] Who holds contract/program upgrade authority (e.g., team multisig, DAO governance, immutable)?
+
+- [ ] What timelock applies to protocol upgrades?
+
+- [ ] Does the protocol multisig include at least one independent signer (different organization)?
+
+- [ ] What is the protocol's audit history and security track record?
+
+- [ ] What protocol-level configurations affect all vaults (fees, oracles, integration allowlists)?
+
+- [ ] Has the protocol been upgraded before? What was the process?
+
+### Vault-Level Assessment
+
+- [ ] Who owns this specific vault?
+
+- [ ] What timelock applies to vault configuration changes?
+
+- [ ] What delegate roles exist and what can each do?
+
+- [ ] Are there onchain constraints (e.g., caps/allowlists/policies) limiting delegate actions?
+
+- [ ] What is the delegate revocation path, and is revocation timelocked or immediate?
+
+- [ ] What emergency capabilities exist at the vault level?
+
+### Withdrawals
+
+- [ ] What is the withdrawal mechanism?
+
+- [ ] What is the expected withdrawal time under normal conditions (documented or measured baseline)?
+
+- [ ] What happens during high redemption demand (queue rules, penalties)?
+
+- [ ] Who can restrict withdrawals and under what documented conditions?
+
+- [ ] Is there a mechanism to segregate impaired/illiquid positions (if applicable)?
+
+- [ ] Is the withdrawal mechanism appropriate for the strategy type?
+
+### Integrations
+
+- [ ] What integrations are enabled?
+
+- [ ] Are integrations enabled per-vault or automatically?
+
+- [ ] What can each integration do once enabled?
+
+- [ ] What happens if an underlying protocol pauses or is exploited?
+
+### Incident Response
+
+- [ ] Is there documented incident response at protocol and vault levels?
+
+- [ ] Who are the designated responders?
+
+- [ ] Has the process been tested?
+
+### Manager / Curator Assessment
+
+- [ ] What is the track record across market conditions?
+
+- [ ] How do they communicate during problems?
+
+- [ ] What conflicts of interest exist?
+
+### Cross-Chain (if applicable)
+
+- [ ] What finality assumptions does the bridge make?
+
+- [ ] How is message validity verified?
+
+- [ ] Where are custody points during transit?
+
+- [ ] What is the bridge's incident history?
+
+### Offchain Dependencies
+
+- [ ] What offchain services are required?
+
+- [ ] What happens if they are unavailable?
+
+- [ ] Are there offchain custody components? What attestations exist?
+
+### Fee Structure
+
+- [ ] What are all fee types (management, performance, protocol, execution)?
+
+- [ ] Who controls the fee-receiving addresses?
+
+- [ ] How are fee changes governed?
+
+- [ ] For performance fees, is there a high-water mark?
+
+## Evidence to Request
+
+| Artifact | What It Shows |
+| :---- | :---- |
+| **Audit reports** (full scope) | Components covered, findings, remediation |
+| **Timelock configuration** | Actual durations, which actions are timelocked, and any bypass/emergency paths that can execute without delay |
+| **Signer documentation** | Who signs, organization separation, key custody posture (where disclosed) |
+| **Incident response runbook** | Procedures, responders, test results |
+| **Withdrawal mechanics spec** | Behavior under normal and stress, mechanism rules (queue/epoch/gating/instant), restriction conditions |
+| **Role authority map** | Role → permissions → limits → revocation path |
+| **Fee disclosure** | All fee types, calculation, governance |
+| **Incident history** | Past problems, detection time, resolution |
+
+## Ongoing Monitoring
+
+**Weekly**: Withdrawal wait indicator (queue/epoch/gating), position concentration, governance/admin actions
+
+**Monthly**: Curator reporting quality, performance vs. expectations, TVL patterns
+
+**Event-driven**: Any incident in underlying protocols, governance changes, market stress
+
+**Exit triggers**: Define thresholds that would prompt review or exit before they are needed.

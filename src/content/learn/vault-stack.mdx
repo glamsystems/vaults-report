@@ -1,0 +1,102 @@
+---
+title: The Vault Stack
+order: 4
+---
+
+# The Vault Stack
+
+The vault ecosystem operates as a layered stack. Understanding which layer a protocol occupies clarifies what it does, what risks it introduces, and who you are underwriting.
+
+## Layer Overview
+
+| Layer | Function | Scope of Impact | You Are Underwriting | Key Artifact to Verify |
+| :---- | :---- | :---- | :---- | :---- |
+| **Management & Curation** | Strategy operation | Vault-level (affects this vault) | Curator's judgment and vault configuration | Track record, vault owner setup, delegate permissions |
+| **Lending & Yield** | Deployment destinations where returns originate | Venue-level (varies significantly by type) | Protocol mechanics, market conditions, and type-specific risks | Audits, incident history, utilization data, type-specific documentation |
+| **Asset Tokenization** | Offchain asset representation | Issuer-level | Issuer solvency and legal structure | Reserve attestations, legal opinions, regulatory filings (if applicable) |
+| **Infrastructure** | Core vault logic (e.g., accounting, permissions, integrations) | Protocol-level (affects all vaults) | Infrastructure team’s code and governance | Audit reports, upgrade delay mechanism (if any), admin/upgrade authority (e.g., multisig/governance module) |
+| **Tooling** | Operational support | Service-level | Service reliability and security practices | Uptime history, security documentation, key management procedures |
+
+## Infrastructure Layer
+
+Infrastructure provides the building blocks: smart contract frameworks, share accounting, permission enforcement. Infrastructure protocols generally do not run strategies; they enable others to do so (though some stacks also offer managed/curated vault products).
+
+**Protocol-level risk lives here.** When using infrastructure, you underwrite the infrastructure team’s code quality and governance. The infrastructure team's upgrade authority affects all vaults on the platform (see Architecture: Two Levels of Trust).
+
+Key questions at this level:
+
+- Who holds contract/program upgrade authority?
+
+- What timelock applies to protocol upgrades?
+
+- What is the protocol's audit and incident history?
+
+- What protocol-level parameters affect all vaults?
+
+Infrastructure determines the ceiling of what guarantees are possible. If the infrastructure allows instant upgrades to shared contract/program logic, vaults that depend on that shared logic cannot offer stronger guarantees than the infrastructure’s upgrade controls.
+
+## Management and Curation Layer
+
+Curators and managers operate strategies on top of infrastructure. They select opportunities, configure parameters, and make ongoing allocation decisions. (See Glossary for curator vs. manager distinction.)
+
+**Vault-level risk lives here.** When using a managed vault, you underwrite the curator's judgment and the vault's specific configuration (see Architecture: Two Levels of Trust).
+
+Key questions at this level:
+
+- Who owns this vault and what governance constrains them?
+
+- What is their performance across market conditions?
+
+- How do they communicate during incidents?
+
+- What delegate permissions exist and are they appropriately bounded?
+
+The same infrastructure can produce very different outcomes depending on both who operates it and how they configure it.
+
+## Lending and Yield Layer
+
+Lending protocols, yield sources, and DeFi primitives provide the opportunities where vault capital is deployed. This is where returns originate.
+
+When accessing yield, you underwrite the venue. Key questions: What is the protocol's incident history? What oracle dependencies exist? How does it behave under high utilization?
+
+Yield sources vary significantly in risk profile. Lending markets depend on borrower demand and utilization dynamics. Yield aggregators inherit underlying venue risk plus routing logic. Private credit involves credit risk and legal enforceability. Staking and restaking introduce slashing exposure. Evaluate each type on its own terms.
+
+## Asset Tokenization Layer
+
+Tokenization structures bring offchain assets onchain (e.g., treasury securities, private credit, real estate).
+
+When holding tokenized assets, you underwrite the issuer and structure. Key questions: Who custodies underlying assets? What legal structure governs the token? What redemption rights exist contractually? What jurisdiction governs disputes?
+
+Tokenized asset risks differ from crypto-native risks. Credit risk, legal structure risk (is your claim enforceable in bankruptcy?), and operational risk (can you actually redeem?) add to smart contract considerations.
+
+## Tooling Layer
+
+Security monitoring, key management, and access control systems support operations across all layers.
+
+When relying on tooling, you underwrite service providers. Key questions: What is uptime history? How is key material protected?
+
+Tooling failures can cascade across other layers.
+
+## Understanding Accountability
+
+When problems occur, accountability and available recourse vary significantly by layer and circumstance. Rather than assuming specific remedies exist, depositors should understand the accountability landscape before committing capital.
+
+**Infrastructure failures:** Recourse depends heavily on the protocol's legal structure, treasury resources, and any insurance coverage. Some protocols maintain treasuries or insurance funds; others do not. Legal enforceability varies by jurisdiction and the nature of the failure.
+
+**Curator failures:** Accountability may be limited to reputation and the ability to withdraw, unless contractual, regulatory, or legal obligations apply in a given setup. Some curators may have staked capital at risk; others may not. Review how the curator has handled past incidents, if any.
+
+**Venue failures:** Response depends on the underlying protocol's governance and resources. Review postmortems from past incidents to understand typical response patterns.
+
+**Tokenization failures:** May involve traditional legal remedies depending on jurisdiction and legal structure, but enforceability varies significantly. Understand the specific legal framework before assuming recourse exists.
+
+**Key questions to ask at each layer:**
+
+- What resources (treasury, insurance) could be used to address losses?
+
+- What is the legal structure and jurisdiction?
+
+- What precedent exists for how similar failures have been handled?
+
+- What is the realistic timeline for any recovery process?
+
+Assume limited recourse in all cases and size positions accordingly.

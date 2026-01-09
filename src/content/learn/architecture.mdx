@@ -1,0 +1,96 @@
+---
+title: Architecture & Tradeoffs
+order: 3
+---
+
+# Architecture & Tradeoffs
+
+Vault protocols make design decisions across multiple dimensions. Each choice involves tradeoffs between security, flexibility, and operational complexity.
+
+## Two Levels of Trust
+
+A critical distinction: depositors must trust configurations at **two separate levels**, which may be controlled by different parties (or, in some deployments, the same party).
+
+| Level | Controlled By | What Can Change | Affects |
+| :---- | :---- | :---- | :---- |
+| **Protocol** | Infrastructure team (e.g., protocol multisig) | Contract/program, core mechanics, integration allowlists, protocol-level parameters | All vaults on the platform |
+| **Vault** | Vault owner/manager | Vault-specific timelocks, delegates, enabled integrations, fee settings | Only that specific vault |
+
+**Why this matters:**
+
+A vault owner can configure their vault perfectly (long timelocks, multisig ownership, careful delegate selection) and still be exposed to protocol-level upgrade risk. If the infrastructure team can upgrade the contract/program (or its upgrade target) with a short timelock or single key, that risk flows through to all vaults regardless of vault-level configuration.
+
+Conversely, a protocol can be immutable and thoroughly audited, but a specific vault on it can still have risky governance if the vault owner configured it poorly.
+
+**Evaluation requires assessing both levels independently:**
+
+**Protocol level**: Who can upgrade the program? What governance constrains them? What is the protocol's security history?
+
+**Vault level**: Who owns this vault? What timelocks apply to vault configuration? What delegate permissions exist?
+
+The architecture dimensions below can apply at either or both levels. When evaluating, identify which level each configuration exists at.
+
+## Architecture Comparison
+
+| Dimension | Options | Depositor Implication | Operational Tradeoff |
+| :---- | :---- | :---- | :---- |
+| **Contract Mutability** | Immutable | Onchain code cannot change; behavior may still depend on external dependencies (e.g., oracles, integrations). | No on-chain bug fixes; remediation typically requires migration. |
+|  | Upgradeable | Execution logic can change (can be patched). | Must trust upgrade authority |
+|  | Modular | Core can be kept more stable; periphery flexible | More complex to audit |
+| **Permissions** | Single-role | All trust in one party | Single point of failure |
+|  | Multi-role | Separated authorities | Coordination overhead |
+|  | Constraint-based | Actions capped by policy | Complex constraint design |
+| **Governance** | Immutable params | High certainty on parameter values (subject to external dependencies) | Zero adaptability |
+|  | Timelocked | Often provides an exit window before changes (if withdrawals are available during the delay) | Slower response |
+|  | Instant | High flexibility | Higher governance risk (scope- and control-dependent) |
+|  | Emergency | Rapid risk-reduction (pause, withdraw); scope varies by design | May be insufficient if misconfigured or if scope is too narrow |
+| **Withdrawals** | Instant | Near-immediate liquidity if sufficient liquid assets; otherwise may revert or be limited | Constrains strategy |
+|  | Epoch-based | Predictable timing | Capital locked for periods |
+|  | Queue-based | Typically FIFO ordering (implementation-dependent) | Uncertain timing |
+|  | Forced exit | Enables exit under defined conditions (often via forced unwinding or alternative liquidity paths); may fail under insolvency or severe illiquidity | May incur penalties, slippage, or caps (design-dependent) |
+| **Integrations** | Per-vault enablement | Control over exposure | Approval/maintenance overhead |
+|  | Automatic | Immediate access | Inherited exposure |
+
+## Contract Mutability
+
+**Immutable core contracts** cannot be modified after deployment. Depositors know the onchain code will not change (though behavior may still depend on external dependencies such as oracles or integrations). The cost is that discovered vulnerabilities cannot be patched onchain; remediation typically requires migration to new contracts.
+
+**Upgradeable contracts** allow authorized parties to deploy new code. This enables bug fixes and improvements but requires trust in the upgrade authority. Understanding who holds this authority and what governance constrains their actions is essential.
+
+**Modular architectures** separate core vault functionality from peripheral components. The core protocol can be kept more stable, with changes more often isolated to peripheral components. Integration modules can be added or updated independently, reducing upgrade frequency for critical code.
+
+## Permission Structures
+
+**Single-role models** concentrate all authority in one address. Simple to audit but creates concentration risk.
+
+**Multi-role hierarchies** separate capabilities. Common patterns: owner (configures vault, appoints roles), curator/allocator (deploys capital within parameters), guardian/sentinel (emergency actions such as pausing or reducing exposure; scope varies by implementation and may be broader if misconfigured).
+
+**Constraint-based systems** define boundaries that all actions must satisfy. Operators have flexibility within parameters but cannot exceed limits.
+
+## Governance Mechanisms
+
+**Immutable parameters** provide certainty but no adaptability.
+
+**Timelocked changes** require waiting periods between proposal and execution. Some architectures implement asymmetric timelocks: risk-reducing actions execute instantly; risk-increasing actions require delays. The appropriate timelock duration depends on depositor exit requirements; it should exceed your internal review and redemption process timeline.
+
+**Instant governance** allows parameter or configuration changes without delay. Maximum flexibility but maximum governance risk; appropriate controls depend on scope and who holds authority.
+
+**Emergency capabilities** allow rapid response through roles that can reduce exposure or pause operations; whether they can expand capabilities depends on the role design and configuration.
+
+## Withdrawal Mechanics
+
+**Instant redemption processes** withdrawals immediately if sufficient liquid assets are available; otherwise withdrawals may revert, be limited, or require waiting. Constrains strategies to liquid positions.
+
+**Epoch-based systems** process withdrawals at fixed intervals. Essential for strategies requiring committed capital.
+
+**Queue-based systems** process requests in a defined order as liquidity becomes available (often FIFO, implementation-dependent). Timing is uncertain.
+
+**Forced exit mechanisms** aim to make withdrawal possible under defined conditions (often via forced unwinding or alternative liquidity paths), but can still fail or degrade under insolvency, severe illiquidity, or protocol/oracle failure. These can involve penalties, slippage, or caps (design-dependent) and can reduce the risk of indefinite lockup, but do not guarantee exits cannot be blocked or delayed in all scenarios.
+
+## Integration Architecture
+
+**Per-vault enablement** requires explicit approval for each integration on each vault. Provides control but requires attention.
+
+**Automatic availability** makes new integrations immediately accessible. Reduces friction but expands exposure without explicit opt-in.
+
+Each enabled integration extends the vault's trusted surface. Understanding what each integration can do once enabled is part of evaluation.
