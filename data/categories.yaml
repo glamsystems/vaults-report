@@ -2,6 +2,33 @@
 # Last updated: 2026-01-03
 
 categories:
+
+  - id: infrastructure
+    name: Infrastructure
+    description: |
+      Base layer protocols and platforms enabling vault creation,
+      configuration, and management. These are the primitives that
+      define what a vault is and how it behaves onchain.
+    sub-categories:
+      - id: vault-platforms
+        name: Vault Platforms
+        description: |
+          General-purpose infrastructure for creating and managing
+          tokenized investment vaults. Horizontal platforms where
+          managers can deploy any strategy.
+      - id: protocol-native-vaults
+        name: Protocol-Native Vaults
+        description: |
+          Vertical vault infrastructure integrated into a protocol's
+          core product. Vaults built on top of DEXs, perps, or
+          liquidity protocols.
+      - id: cross-chain-platforms
+        name: Cross-Chain Platforms
+        description: |
+          Infrastructure enabling vault operations across multiple
+          blockchains. Includes omnichain standards, bridges, and
+          cross-chain execution layers.
+
   - id: management-curation
     name: Management & Curation
     description: |
@@ -35,32 +62,6 @@ categories:
           Tokenized access to private credit, diversified funds,
           and alternative investment products beyond traditional
           public markets.
-
-  - id: infrastructure
-    name: Infrastructure
-    description: |
-      Base layer protocols and platforms enabling vault creation,
-      configuration, and management. These are the primitives that
-      define what a vault is and how it behaves onchain.
-    sub-categories:
-      - id: vault-platforms
-        name: Vault Platforms
-        description: |
-          General-purpose infrastructure for creating and managing
-          tokenized investment vaults. Horizontal platforms where
-          managers can deploy any strategy.
-      - id: protocol-native-vaults
-        name: Protocol-Native Vaults
-        description: |
-          Vertical vault infrastructure integrated into a protocol's
-          core product. Vaults built on top of DEXs, perps, or
-          liquidity protocols.
-      - id: cross-chain-platforms
-        name: Cross-Chain Platforms
-        description: |
-          Infrastructure enabling vault operations across multiple
-          blockchains. Includes omnichain standards, bridges, and
-          cross-chain execution layers.
 
   - id: lending-yield
     name: Lending & Yield

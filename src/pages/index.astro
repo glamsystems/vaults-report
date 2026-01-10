@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { DashboardLayout } from '../components/layout/DashboardLayout'
-import { DirectoryTable } from '../components/directory-table'
+import { LandingContent } from '../components/landing-content'
 import { getGroupedDirectory } from '../lib/directory'
 
 const groupedData = getGroupedDirectory()
@@ -9,7 +9,7 @@ const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
 ---
 
 <Layout>
-  <DashboardLayout client:load title="Project Directory" directoryCount={totalProjects} currentPath={Astro.url.pathname}>
-    <DirectoryTable client:load data={groupedData} />
+  <DashboardLayout client:load title="Vault Ecosystem" directoryCount={totalProjects} currentPath={Astro.url.pathname}>
+    <LandingContent client:load data={groupedData} />
   </DashboardLayout>
 </Layout>

@@ -28,8 +28,8 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile"
 
 const navItems = [
-  { title: "Directory", url: "/directory", icon: FolderOpen },
   { title: "Ecosystem", url: "/ecosystem", icon: Globe, desktopOnly: true },
+  { title: "Directory", url: "/directory", icon: FolderOpen },
 ]
 
 const learnItems = [
@@ -73,9 +73,9 @@ export function AppSidebar({ directoryCount, isLearnPage = false, currentPath = 
   const isPathActive = (itemUrl: string) => {
     const normalizedPath = currentPath.replace(/\/$/, '') || '/'
     const normalizedItemUrl = itemUrl.replace(/\/$/, '') || '/'
-    // Homepage "/" should match "/directory"
+    // Homepage "/" should match "/ecosystem" on desktop, "/directory" on mobile
     if (normalizedPath === '' || normalizedPath === '/') {
-      return normalizedItemUrl === '/directory'
+      return isMobile ? normalizedItemUrl === '/directory' : normalizedItemUrl === '/ecosystem'
     }
     return normalizedPath === normalizedItemUrl
   }
