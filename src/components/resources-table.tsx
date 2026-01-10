@@ -24,6 +24,12 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/ui/menubar'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 import type { Resource } from '@/lib/resources'
 
 interface ResourcesTableProps {
@@ -152,6 +158,47 @@ function FilterToolbar({
   )
 }
 
+interface MobileResourcesAccordionProps {
+  data: Resource[]
+  onResourceClick: (resource: Resource) => void
+}
+
+function MobileResourcesAccordion({ data, onResourceClick }: MobileResourcesAccordionProps) {
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      {data.map((resource) => (
+        <AccordionItem key={resource.url} value={resource.url}>
+          <AccordionTrigger className="py-3 text-sm overflow-hidden">
+            <div className="flex items-center gap-2 text-left flex-1 min-w-0 overflow-hidden">
+              <span className="font-medium font-[family-name:var(--font-geist-sans)] truncate">{resource.name}</span>
+              <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 shrink-0 whitespace-nowrap mr-2">
+                {resource.category}
+              </span>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-4">
+            <div className="space-y-3">
+              <p className="text-muted-foreground font-[family-name:var(--font-geist-sans)] leading-relaxed">{resource.description}</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  {resource.source && <span>{resource.source}</span>}
+                  {resource.date && <span>· {resource.date}</span>}
+                </div>
+                <button
+                  onClick={() => onResourceClick(resource)}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                >
+                  Open <ArrowSquareOut className="size-4" />
+                </button>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  )
+}
+
 export function ResourcesTable({ data }: ResourcesTableProps) {
   const [search, setSearch] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -244,50 +291,57 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
         onClearAll={handleClearAll}
         isMobile={isMobile}
       />
-      <Table>
-        <TableHeader>
-          <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[280px]">Resource</TableHead>
-            <TableHead className="min-w-[300px]">Description</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Link</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredData.map((resource) => (
-            <TableRow
-              key={resource.url}
-              className="cursor-pointer"
-              onClick={() => handleResourceClick(resource)}
-            >
-              <TableCell className="max-w-[280px]">
-                <span className="font-medium font-[family-name:var(--font-geist-sans)] truncate block" title={resource.name}>
-                  {resource.name}
-                </span>
-              </TableCell>
-              <TableCell>
-                <p className="font-[family-name:var(--font-geist-sans)] text-muted-foreground line-clamp-2 whitespace-normal max-w-md">
-                  {resource.description}
-                </p>
-              </TableCell>
-              <TableCell>
-                <span className="inline-flex items-center rounded-none bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
-                  {resource.category}
-                </span>
-              </TableCell>
-              <TableCell>
-                {resource.date && (
-                  <span className="text-muted-foreground">{resource.date}</span>
-                )}
-              </TableCell>
-              <TableCell>
-                <ArrowSquareOut className="size-5 text-muted-foreground" />
-              </TableCell>
+      {isMobile ? (
+        <MobileResourcesAccordion
+          data={filteredData}
+          onResourceClick={handleResourceClick}
+        />
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-[280px]">Resource</TableHead>
+              <TableHead className="min-w-[300px]">Description</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Link</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredData.map((resource) => (
+              <TableRow
+                key={resource.url}
+                className="cursor-pointer"
+                onClick={() => handleResourceClick(resource)}
+              >
+                <TableCell className="max-w-[280px]">
+                  <span className="font-medium font-[family-name:var(--font-geist-sans)] truncate block" title={resource.name}>
+                    {resource.name}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <p className="font-[family-name:var(--font-geist-sans)] text-muted-foreground line-clamp-2 whitespace-normal max-w-md">
+                    {resource.description}
+                  </p>
+                </TableCell>
+                <TableCell>
+                  <span className="inline-flex items-center rounded-none bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                    {resource.category}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  {resource.date && (
+                    <span className="text-muted-foreground">{resource.date}</span>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <ArrowSquareOut className="size-5 text-muted-foreground" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   )
 }
