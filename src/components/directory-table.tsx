@@ -36,8 +36,7 @@ import {
 } from '@/components/ui/menubar'
 import { ChainBadges, LinkIcons, ProjectHoverContent } from '@/components/shared/ProjectHoverContent'
 import { ThemedLogo } from '@/components/shared/ThemedLogo'
-import type { DirectoryEntry, GroupedDirectory } from '@/lib/directory'
-import { useIsMobile } from '@/hooks/use-mobile'
+import type { GroupedDirectory } from '@/lib/directory'
 
 interface DirectoryTableProps {
   data: GroupedDirectory[]
@@ -54,7 +53,6 @@ interface FilterToolbarProps {
   onCategoryChange: (category: string) => void
   onChainChange: (chain: string) => void
   onClearAll: () => void
-  isMobile: boolean
 }
 
 function FilterToolbar({
@@ -68,7 +66,6 @@ function FilterToolbar({
   onCategoryChange,
   onChainChange,
   onClearAll,
-  isMobile,
 }: FilterToolbarProps) {
   const hasFilters = selectedCategories.length > 0 || selectedChains.length > 0 || search.length > 0
 
@@ -85,82 +82,81 @@ function FilterToolbar({
           className="h-8 w-48 rounded-none border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         />
       </div>
-      {!isMobile && (
-        <>
-          <Funnel className="size-4 text-muted-foreground" />
-          <Menubar>
-            <MenubarMenu>
-              <MenubarTrigger>Categories</MenubarTrigger>
-              <MenubarContent>
-                {categories.map((category) => (
-                  <MenubarCheckboxItem
-                    key={category}
-                    checked={selectedCategories.includes(category)}
-                    onCheckedChange={() => onCategoryChange(category)}
-                  >
-                    {category}
-                  </MenubarCheckboxItem>
-                ))}
-              </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>Chains</MenubarTrigger>
-              <MenubarContent className="max-h-64 overflow-y-auto">
-                {chains.map((chain) => (
-                  <MenubarCheckboxItem
-                    key={chain}
-                    checked={selectedChains.includes(chain)}
-                    onCheckedChange={() => onChainChange(chain)}
-                  >
-                    {chain}
-                  </MenubarCheckboxItem>
-                ))}
-              </MenubarContent>
-            </MenubarMenu>
-          </Menubar>
+      {/* Desktop-only filters */}
+      <div className="hidden md:contents">
+        <Funnel className="size-4 text-muted-foreground" />
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>Categories</MenubarTrigger>
+            <MenubarContent>
+              {categories.map((category) => (
+                <MenubarCheckboxItem
+                  key={category}
+                  checked={selectedCategories.includes(category)}
+                  onCheckedChange={() => onCategoryChange(category)}
+                >
+                  {category}
+                </MenubarCheckboxItem>
+              ))}
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Chains</MenubarTrigger>
+            <MenubarContent className="max-h-64 overflow-y-auto">
+              {chains.map((chain) => (
+                <MenubarCheckboxItem
+                  key={chain}
+                  checked={selectedChains.includes(chain)}
+                  onCheckedChange={() => onChainChange(chain)}
+                >
+                  {chain}
+                </MenubarCheckboxItem>
+              ))}
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
 
-          {/* Selected filter badges */}
-          {selectedCategories.map((category) => (
-            <span
-              key={`cat-${category}`}
-              className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
-            >
-              {category}
-              <button
-                onClick={() => onCategoryChange(category)}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" />
-              </button>
-            </span>
-          ))}
-          {selectedChains.map((chain) => (
-            <span
-              key={`chain-${chain}`}
-              className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
-            >
-              {chain}
-              <button
-                onClick={() => onChainChange(chain)}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" />
-              </button>
-            </span>
-          ))}
-
-          {/* Clear all button */}
-          {hasFilters && (
+        {/* Selected filter badges */}
+        {selectedCategories.map((category) => (
+          <span
+            key={`cat-${category}`}
+            className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
+          >
+            {category}
             <button
-              onClick={onClearAll}
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              onClick={() => onCategoryChange(category)}
+              className="text-muted-foreground hover:text-foreground"
             >
               <X className="size-3" />
-              Clear all
             </button>
-          )}
-        </>
-      )}
+          </span>
+        ))}
+        {selectedChains.map((chain) => (
+          <span
+            key={`chain-${chain}`}
+            className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
+          >
+            {chain}
+            <button
+              onClick={() => onChainChange(chain)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <X className="size-3" />
+            </button>
+          </span>
+        ))}
+
+        {/* Clear all button */}
+        {hasFilters && (
+          <button
+            onClick={onClearAll}
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <X className="size-3" />
+            Clear all
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -227,7 +223,6 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
     // System preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches
   })
-  const isMobile = useIsMobile()
 
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains('dark'))
@@ -332,7 +327,6 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
         onCategoryChange={handleCategoryChange}
         onChainChange={handleChainChange}
         onClearAll={handleClearAll}
-        isMobile={isMobile}
       />
       {/* Mobile: Accordion view */}
       <div className="md:hidden">
