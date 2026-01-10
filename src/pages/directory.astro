@@ -9,7 +9,7 @@ const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
 ---
 
 <Layout>
-  <DashboardLayout client:load title="Project Directory" directoryCount={totalProjects}>
+  <DashboardLayout client:load title="Project Directory" directoryCount={totalProjects} currentPath={Astro.url.pathname}>
     <DirectoryTable client:load data={groupedData} />
   </DashboardLayout>
 </Layout>

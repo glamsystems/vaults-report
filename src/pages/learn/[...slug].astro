@@ -45,7 +45,7 @@ const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
 ---
 
 <Layout>
-  <DashboardLayout client:load title={entry.data.title} directoryCount={totalProjects} isLearnPage={true}>
+  <DashboardLayout client:load title={entry.data.title} directoryCount={totalProjects} isLearnPage={true} currentPath={Astro.url.pathname}>
     <div class="max-w-2xl mx-auto">
       <article class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-normal prose-headings:font-[family-name:var(--font-geist-sans)] prose-p:font-[family-name:var(--font-geist-sans)] prose-p:text-foreground prose-strong:font-semibold prose-strong:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary/80 prose-table:w-full prose-table:text-sm prose-thead:border-b prose-thead:border-border prose-th:h-10 prose-th:px-2 prose-th:text-left prose-th:align-middle prose-th:font-medium prose-th:font-mono prose-th:text-foreground prose-th:whitespace-nowrap [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-muted/50 prose-td:p-2 prose-td:align-top prose-td:font-[family-name:var(--font-geist-sans)] prose-td:text-muted-foreground">
         <Content />

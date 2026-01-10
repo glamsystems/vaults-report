@@ -8,7 +8,7 @@ const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
 ---
 
 <Layout>
-  <DashboardLayout client:load title="Privacy Policy" directoryCount={totalProjects}>
+  <DashboardLayout client:load title="Privacy Policy" directoryCount={totalProjects} currentPath={Astro.url.pathname}>
     <div class="space-y-8 max-w-2xl mx-auto">
       <p class="text-xs text-muted-foreground">Last updated: January 2025</p>
 

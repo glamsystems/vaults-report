@@ -54,9 +54,10 @@ const secondaryItems = [
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   directoryCount?: number
   isLearnPage?: boolean
+  currentPath?: string
 }
 
-export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: AppSidebarProps) {
+export function AppSidebar({ directoryCount, isLearnPage = false, currentPath = '', ...props }: AppSidebarProps) {
   const isMobile = useIsMobile()
 
   // Initialize from server-side prop to avoid hydration mismatch
@@ -64,6 +65,13 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
 
   const handleLearnToggle = (open: boolean) => {
     setLearnOpen(open)
+  }
+
+  // Check if a path is active (exact match or with trailing slash)
+  const isPathActive = (itemUrl: string) => {
+    const normalizedPath = currentPath.replace(/\/$/, '') || '/'
+    const normalizedItemUrl = itemUrl.replace(/\/$/, '') || '/'
+    return normalizedPath === normalizedItemUrl
   }
 
   const filteredNavItems = navItems.filter(item => !item.desktopOnly || !isMobile)
@@ -93,7 +101,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
             <SidebarMenu>
               {filteredNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={isPathActive(item.url)}>
                     <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -108,7 +116,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
               {/* Learn - Collapsible with split button */}
               <Collapsible open={learnOpen} onOpenChange={handleLearnToggle} className="group/collapsible">
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={currentPath.startsWith('/learn')}>
                     <a href={`${import.meta.env.BASE_URL}learn`}>
                       <GraduationCap />
                       <span>Learn</span>
@@ -123,7 +131,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
                     <SidebarMenuSub>
                       {learnItems.map((item) => (
                         <SidebarMenuSubItem key={item.title}>
-                          <SidebarMenuSubButton asChild>
+                          <SidebarMenuSubButton asChild isActive={isPathActive(item.url)}>
                             <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>
                               <span>{item.title}</span>
                             </a>
@@ -138,7 +146,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
               {/* Resources */}
               {secondaryNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={isPathActive(item.url)}>
                     <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -151,7 +159,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, ...props }: Ap
             <SidebarMenu>
               {secondaryItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={isPathActive(item.url)}>
                     <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>
                       <item.icon />
                       <span>{item.title}</span>
