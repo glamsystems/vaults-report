@@ -161,13 +161,13 @@ function FilterToolbar({
   )
 }
 
-interface MobileAccordionViewProps {
+export interface MobileAccordionViewProps {
   data: GroupedDirectory[]
   isDark: boolean
   onCardView: (project: string, category: string) => void
 }
 
-function MobileAccordionView({ data, isDark, onCardView }: MobileAccordionViewProps) {
+export function MobileAccordionView({ data, isDark, onCardView }: MobileAccordionViewProps) {
   return (
     <div className="space-y-6">
       {data.map((group) => (
