@@ -39,7 +39,7 @@ The architecture dimensions below can apply at either or both levels. When evalu
 
 | Dimension | Options | Depositor Implication | Operational Tradeoff |
 | :---- | :---- | :---- | :---- |
-| **Contract Mutability** | Immutable | Onchain code cannot change; behavior may still depend on external dependencies (e.g., oracles, integrations). | No on-chain bug fixes; remediation typically requires migration. |
+| **Contract Mutability** | Immutable | Onchain code cannot change; behavior may still depend on external dependencies (e.g., oracles, integrations). | No onchain bug fixes; remediation typically requires migration. |
 |  | Upgradeable | Execution logic can change (can be patched). | Must trust upgrade authority |
 |  | Modular | Core can be kept more stable; periphery flexible | More complex to audit |
 | **Permissions** | Single-role | All trust in one party | Single point of failure |
