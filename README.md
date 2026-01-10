@@ -61,4 +61,4 @@ To add or update a protocol:
 
 - Website: https://vaults.report
 - Twitter: https://x.com/vaultsreport
-- Publisher: [GLAM](https://glam.systems)
+- Mainted by: [GLAM](https://glam.systems)
