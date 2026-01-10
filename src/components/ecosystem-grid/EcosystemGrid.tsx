@@ -150,7 +150,7 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
 
     // Center the chart
     const offsetX = Math.floor((EXPORT_WIDTH - chartWidth) / 2)
-    const offsetY = HEADER_HEIGHT + PADDING + Math.floor((availableHeight - chartHeight) / 2) + 25
+    const offsetY = HEADER_HEIGHT + PADDING + Math.floor((availableHeight - chartHeight) / 2) + 40
 
     // Create canvas - fixed 16:9
     const canvas = document.createElement('canvas')
