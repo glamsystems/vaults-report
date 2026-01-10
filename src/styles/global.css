@@ -206,8 +206,14 @@
       overflow-y: visible;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-x: contain;
-      /* Key: allow page to pan vertically even when touch starts on table */
-      touch-action: pan-y;
+      touch-action: pan-x pan-y;
+    }
+
+    /* iOS Safari only reliably supports 'manipulation' */
+    @supports (-webkit-touch-callout: none) {
+      [data-slot="table-container"] {
+        touch-action: manipulation;
+      }
     }
   }
 
