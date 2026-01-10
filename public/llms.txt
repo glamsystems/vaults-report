@@ -1,0 +1,33 @@
+# Vaults Report
+
+> Independent research mapping vault infrastructure and onchain asset management protocols.
+
+Website: https://vaults.report
+Twitter: https://x.com/vaultsreport
+Publisher: GLAM *.+
+
+## Overview
+
+Vaults Report is a community-curated resource providing taxonomy, evaluation frameworks, and a directory of 100+ vault protocols in the DeFi ecosystem.
+
+## Sections
+
+- Map: Visual ecosystem landscape
+- Directory: Searchable database of 100+ protocols
+- Learn: Educational content on vault infrastructure
+- Resources: Additional materials
+
+## Key Concepts
+
+- **Vault**: Smart contract that pools capital and deploys it according to defined logic
+- **Archetypes**: Wrapper, Modular, Aggregator
+- **Execution Models**: Automated, Curated, Managed
+- **Two Levels of Trust**: Protocol-level vs Vault-level risk
+
+## Categories
+
+- Infrastructure (Vault Platforms, Cross-Chain, Protocol-Native)
+- Management & Curation
+- Lending & Yield
+- Asset Tokenization
+- Tooling

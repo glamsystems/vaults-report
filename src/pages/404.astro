@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout>
+  <div class="min-h-screen flex items-center justify-center bg-background">
+    <div class="text-center px-4">
+      <p class="text-8xl font-extralight text-muted-foreground opacity-25 mb-4">404</p>
+      <p class="text-lg text-muted-foreground mb-8">This vault is empty.</p>
+      <nav class="flex flex-wrap justify-center gap-4">
+        <a
+          href="/"
+          class="px-4 py-2 border border-border hover:bg-muted transition-colors"
+        >
+          Home
+        </a>
+        <a
+          href="/ecosystem"
+          class="px-4 py-2 border border-border hover:bg-muted transition-colors"
+        >
+          Ecosystem Map
+        </a>
+        <a
+          href="/directory"
+          class="px-4 py-2 border border-border hover:bg-muted transition-colors"
+        >
+          Directory
+        </a>
+      </nav>
+    </div>
+  </div>
+</Layout>
