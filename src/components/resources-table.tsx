@@ -8,7 +8,6 @@ declare global {
   }
 }
 import { ArrowSquareOut, MagnifyingGlass, Funnel, X } from '@phosphor-icons/react'
-import { useIsMobile } from '@/hooks/use-mobile'
 import {
   Table,
   TableBody,
@@ -47,7 +46,6 @@ interface FilterToolbarProps {
   selectedSources: string[]
   onSourceChange: (source: string) => void
   onClearAll: () => void
-  isMobile: boolean
 }
 
 function FilterToolbar({
@@ -61,7 +59,6 @@ function FilterToolbar({
   selectedSources,
   onSourceChange,
   onClearAll,
-  isMobile,
 }: FilterToolbarProps) {
   const hasFilters = selectedCategories.length > 0 || selectedSources.length > 0 || search.length > 0
 
@@ -78,82 +75,81 @@ function FilterToolbar({
           className="h-8 w-48 rounded-none border bg-background pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         />
       </div>
-      {!isMobile && (
-        <>
-          <Funnel className="size-4 text-muted-foreground" />
-          <Menubar>
-            <MenubarMenu>
-              <MenubarTrigger>Categories</MenubarTrigger>
-              <MenubarContent>
-                {categories.map((category) => (
-                  <MenubarCheckboxItem
-                    key={category}
-                    checked={selectedCategories.includes(category)}
-                    onCheckedChange={() => onCategoryChange(category)}
-                  >
-                    {category}
-                  </MenubarCheckboxItem>
-                ))}
-              </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>Sources</MenubarTrigger>
-              <MenubarContent>
-                {sources.map((source) => (
-                  <MenubarCheckboxItem
-                    key={source}
-                    checked={selectedSources.includes(source)}
-                    onCheckedChange={() => onSourceChange(source)}
-                  >
-                    {source}
-                  </MenubarCheckboxItem>
-                ))}
-              </MenubarContent>
-            </MenubarMenu>
-          </Menubar>
+      {/* Desktop-only filters */}
+      <div className="hidden md:contents">
+        <Funnel className="size-4 text-muted-foreground" />
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>Categories</MenubarTrigger>
+            <MenubarContent>
+              {categories.map((category) => (
+                <MenubarCheckboxItem
+                  key={category}
+                  checked={selectedCategories.includes(category)}
+                  onCheckedChange={() => onCategoryChange(category)}
+                >
+                  {category}
+                </MenubarCheckboxItem>
+              ))}
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Sources</MenubarTrigger>
+            <MenubarContent>
+              {sources.map((source) => (
+                <MenubarCheckboxItem
+                  key={source}
+                  checked={selectedSources.includes(source)}
+                  onCheckedChange={() => onSourceChange(source)}
+                >
+                  {source}
+                </MenubarCheckboxItem>
+              ))}
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
 
-          {/* Selected filter badges */}
-          {selectedCategories.map((category) => (
-            <span
-              key={`cat-${category}`}
-              className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
-            >
-              {category}
-              <button
-                onClick={() => onCategoryChange(category)}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" />
-              </button>
-            </span>
-          ))}
-          {selectedSources.map((source) => (
-            <span
-              key={`src-${source}`}
-              className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
-            >
-              {source}
-              <button
-                onClick={() => onSourceChange(source)}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" />
-              </button>
-            </span>
-          ))}
-
-          {/* Clear all button */}
-          {hasFilters && (
+        {/* Selected filter badges */}
+        {selectedCategories.map((category) => (
+          <span
+            key={`cat-${category}`}
+            className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
+          >
+            {category}
             <button
-              onClick={onClearAll}
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              onClick={() => onCategoryChange(category)}
+              className="text-muted-foreground hover:text-foreground"
             >
               <X className="size-3" />
-              Clear all
             </button>
-          )}
-        </>
-      )}
+          </span>
+        ))}
+        {selectedSources.map((source) => (
+          <span
+            key={`src-${source}`}
+            className="inline-flex items-center gap-1 rounded-none bg-muted px-2 py-1 text-xs"
+          >
+            {source}
+            <button
+              onClick={() => onSourceChange(source)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <X className="size-3" />
+            </button>
+          </span>
+        ))}
+
+        {/* Clear all button */}
+        {hasFilters && (
+          <button
+            onClick={onClearAll}
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <X className="size-3" />
+            Clear all
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -203,7 +199,6 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
   const [search, setSearch] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedSources, setSelectedSources] = useState<string[]>([])
-  const isMobile = useIsMobile()
 
   // Extract unique categories and sources
   const { categories, sources } = useMemo(() => {
@@ -289,7 +284,6 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
         selectedSources={selectedSources}
         onSourceChange={handleSourceChange}
         onClearAll={handleClearAll}
-        isMobile={isMobile}
       />
       {/* Mobile: Accordion view */}
       <div className="md:hidden">
