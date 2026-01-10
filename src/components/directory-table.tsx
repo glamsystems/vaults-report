@@ -293,12 +293,15 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
             <Fragment key={group.category}>
               {/* Category Header Row */}
               <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableCell colSpan={4} className="py-3">
+                <TableCell className="py-3 !bg-muted/50">
                   <span className="font-normal">{group.category}</span>
                   <span className="text-muted-foreground ml-2">
                     [{group.items.length}]
                   </span>
                 </TableCell>
+                <TableCell className="bg-muted/50" />
+                <TableCell className="bg-muted/50" />
+                <TableCell className="bg-muted/50" />
               </TableRow>
               {/* Entry Rows */}
               {group.items.map((entry) => {
@@ -316,7 +319,7 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
                       </p>
                     </TableCell>
                     <TableCell>
-                      <ChainBadges chains={entry.chains} />
+                      <ChainBadges chains={entry.chains} maxVisible={isMobile ? 1 : 2} />
                     </TableCell>
                     <TableCell>
                       <LinkIcons entry={entry} />

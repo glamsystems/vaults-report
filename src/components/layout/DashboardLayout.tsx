@@ -17,14 +17,15 @@ interface DashboardLayoutProps {
   directoryCount?: number
   isLearnPage?: boolean
   currentPath?: string
+  learnItems?: Array<{ title: string; url: string }>
 }
 
-export function DashboardLayout({ children, title, defaultOpen, directoryCount, isLearnPage, currentPath }: DashboardLayoutProps) {
+export function DashboardLayout({ children, title, defaultOpen, directoryCount, isLearnPage, currentPath, learnItems }: DashboardLayoutProps) {
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar directoryCount={directoryCount} isLearnPage={isLearnPage} currentPath={currentPath} />
+      <AppSidebar directoryCount={directoryCount} isLearnPage={isLearnPage} currentPath={currentPath} learnItems={learnItems} />
       <SidebarInset>
-        <header className="bg-background sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <header className="bg-background sticky top-0 z-20 flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex flex-1 items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator

@@ -2,11 +2,11 @@ import { GithubLogo, FileText, XLogo, Globe, LinkedinLogo, EnvelopeSimple, Teleg
 import type { DirectoryEntry } from '@/lib/directory'
 import { ThemedLogo } from '@/components/shared/ThemedLogo'
 
-export function ChainBadges({ chains, maxRows = 1 }: { chains: string[]; maxRows?: 1 | 2 }) {
+export function ChainBadges({ chains, maxRows = 1, maxVisible: maxVisibleProp }: { chains: string[]; maxRows?: 1 | 2; maxVisible?: number }) {
   if (!chains.length) return <span className="text-muted-foreground">—</span>
 
-  // 2 badges per row
-  const maxVisible = maxRows * 2
+  // Use explicit maxVisible if provided, otherwise 2 badges per row
+  const maxVisible = maxVisibleProp ?? maxRows * 2
   const displayChains = chains.slice(0, maxVisible)
   const remaining = chains.length - maxVisible
 

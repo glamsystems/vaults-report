@@ -55,10 +55,12 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   directoryCount?: number
   isLearnPage?: boolean
   currentPath?: string
+  learnItems?: Array<{ title: string; url: string }>
 }
 
-export function AppSidebar({ directoryCount, isLearnPage = false, currentPath = '', ...props }: AppSidebarProps) {
+export function AppSidebar({ directoryCount, isLearnPage = false, currentPath = '', learnItems: learnItemsProp, ...props }: AppSidebarProps) {
   const isMobile = useIsMobile()
+  const dynamicLearnItems = learnItemsProp ?? learnItems
 
   // Initialize from server-side prop to avoid hydration mismatch
   const [learnOpen, setLearnOpen] = React.useState(isLearnPage)
@@ -133,7 +135,7 @@ export function AppSidebar({ directoryCount, isLearnPage = false, currentPath = 
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {learnItems.map((item) => (
+                      {dynamicLearnItems.map((item) => (
                         <SidebarMenuSubItem key={item.title}>
                           <SidebarMenuSubButton asChild isActive={isPathActive(item.url)}>
                             <a href={`${import.meta.env.BASE_URL}${item.url.replace(/^\//, '')}`}>

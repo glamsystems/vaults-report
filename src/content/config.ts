@@ -5,6 +5,8 @@ const learn = defineCollection({
   schema: z.object({
     title: z.string(),
     order: z.number().optional(),
+    navLabel: z.string().optional(),
+    buttonLabel: z.string().optional(),
   })
 })
 

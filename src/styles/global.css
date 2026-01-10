@@ -188,6 +188,99 @@
     @apply font-sans;
     overscroll-behavior: none;
   }
+
+  /* ========================================
+     MDX/Prose Table Styles
+     ======================================== */
+
+  /* Scroller container - iOS momentum scrolling & GPU layer */
+  .mdx-table-scroller > div {
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+  }
+
+  /* Tables need border-collapse: separate for sticky to work */
+  .prose table,
+  .mdx-table-scroller table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  /* Row borders via cell bottom borders (needed with border-collapse: separate) */
+  .prose tbody td,
+  .mdx-table-scroller tbody td {
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Remove bottom border from last row */
+  .prose tbody tr:last-child td,
+  .mdx-table-scroller tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Sticky first column - body cells */
+  .prose td:first-child,
+  .mdx-table-scroller td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--background);
+    transition: background-color 0.15s ease;
+  }
+
+  /* Sticky first column - header cells (higher z-index) */
+  .prose th:first-child,
+  .mdx-table-scroller th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--background);
+  }
+
+  /* Force headers to not wrap - ensures consistent column widths and triggers horizontal scroll */
+  .prose th,
+  .mdx-table-scroller th {
+    white-space: nowrap;
+  }
+
+  /* Sticky column hover state - solid color to prevent see-through */
+  .prose tbody tr:hover td:first-child,
+  .mdx-table-scroller tbody tr:hover td:first-child {
+    background: color-mix(in srgb, var(--muted) 50%, var(--background));
+  }
+
+  /* Sticky column shadow using ::after pseudo-element - hidden by default */
+  th:first-child,
+  td:first-child {
+    position: relative;
+  }
+
+  th:first-child::after,
+  td:first-child::after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    top: 0;
+    bottom: -1px;
+    width: 6px;
+    border-left: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  /* Show shadow when container is scrolled */
+  .is-scrolled th:first-child::after,
+  .is-scrolled td:first-child::after {
+    opacity: 1;
+  }
+
+  .dark th:first-child::after,
+  .dark td:first-child::after {
+    background: linear-gradient(90deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 100%);
+  }
+
   /* Style task list items (checkboxes) */
   .prose ul.contains-task-list,
   article ul.contains-task-list {

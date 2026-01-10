@@ -1,6 +1,8 @@
 ---
 title: Architecture & Tradeoffs
 order: 3
+navLabel: Architecture
+buttonLabel: Architecture
 ---
 
 # Architecture & Tradeoffs
@@ -11,10 +13,12 @@ Vault protocols make design decisions across multiple dimensions. Each choice in
 
 A critical distinction: depositors must trust configurations at **two separate levels**, which may be controlled by different parties (or, in some deployments, the same party).
 
+
 | Level | Controlled By | What Can Change | Affects |
 | :---- | :---- | :---- | :---- |
 | **Protocol** | Infrastructure team (e.g., protocol multisig) | Contract/program, core mechanics, integration allowlists, protocol-level parameters | All vaults on the platform |
 | **Vault** | Vault owner/manager | Vault-specific timelocks, delegates, enabled integrations, fee settings | Only that specific vault |
+
 
 **Why this matters:**
 
@@ -31,6 +35,7 @@ Conversely, a protocol can be immutable and thoroughly audited, but a specific v
 The architecture dimensions below can apply at either or both levels. When evaluating, identify which level each configuration exists at.
 
 ## Architecture Comparison
+
 
 | Dimension | Options | Depositor Implication | Operational Tradeoff |
 | :---- | :---- | :---- | :---- |
@@ -50,6 +55,7 @@ The architecture dimensions below can apply at either or both levels. When evalu
 |  | Forced exit | Enables exit under defined conditions (often via forced unwinding or alternative liquidity paths); may fail under insolvency or severe illiquidity | May incur penalties, slippage, or caps (design-dependent) |
 | **Integrations** | Per-vault enablement | Control over exposure | Approval/maintenance overhead |
 |  | Automatic | Immediate access | Inherited exposure |
+
 
 ## Contract Mutability
 

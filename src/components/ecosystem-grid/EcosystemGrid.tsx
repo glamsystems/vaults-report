@@ -208,7 +208,7 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
 
     // Left: copyright
     ctx.textAlign = 'left'
-    ctx.fillText('© Vaults Report', PADDING * 2, footerY)
+    ctx.fillText('© 2026 Vaults Report', PADDING * 2, footerY)
 
     // Right: twitter | url
     ctx.textAlign = 'right'

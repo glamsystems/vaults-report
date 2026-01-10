@@ -5,6 +5,12 @@ import Layout from '../../layouts/Layout.astro'
 import { DashboardLayout } from '../../components/layout/DashboardLayout'
 import { LearnNav } from '../../components/learn/LearnNav'
 import { getGroupedDirectory } from '../../lib/directory'
+import { Table } from '../../components/mdx/Table'
+
+// MDX component overrides - automatically wraps tables in scrollable container
+const mdxComponents = {
+  table: Table
+}
 
 export async function getStaticPaths() {
   const entries = await getCollection('learn')
@@ -40,21 +46,44 @@ const currentIndex = sortedEntries.findIndex(e => e.slug === entry.slug)
 const prevEntry = currentIndex > 0 ? sortedEntries[currentIndex - 1] : null
 const nextEntry = currentIndex < sortedEntries.length - 1 ? sortedEntries[currentIndex + 1] : null
 
+// Generate learn items for sidebar (excluding overview which is the landing page)
+const learnItems = sortedEntries
+  .filter(e => e.slug !== 'overview')
+  .map(e => ({
+    title: e.data.navLabel ?? e.data.title,
+    url: `/learn/${e.slug}`
+  }))
+
 const groupedData = getGroupedDirectory()
 const totalProjects = groupedData.reduce((sum, g) => sum + g.items.length, 0)
 ---
 
 <Layout>
-  <DashboardLayout client:load title={entry.data.title} directoryCount={totalProjects} isLearnPage={true} currentPath={Astro.url.pathname}>
-    <div class="max-w-2xl mx-auto">
-      <article class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-normal prose-headings:font-[family-name:var(--font-geist-sans)] prose-p:font-[family-name:var(--font-geist-sans)] prose-p:text-foreground prose-strong:font-semibold prose-strong:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary/80 prose-table:w-full prose-table:text-sm prose-thead:border-b prose-thead:border-border prose-th:h-10 prose-th:px-2 prose-th:text-left prose-th:align-middle prose-th:font-medium prose-th:font-mono prose-th:text-foreground prose-th:whitespace-nowrap [&_tbody_tr]:border-b [&_tbody_tr]:border-border [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-muted/50 prose-td:p-2 prose-td:align-top prose-td:font-[family-name:var(--font-geist-sans)] prose-td:text-muted-foreground">
-        <Content />
+  <DashboardLayout client:load title={entry.data.title} directoryCount={totalProjects} isLearnPage={true} currentPath={Astro.url.pathname} learnItems={learnItems}>
+    <div class="max-w-2xl mx-auto min-w-0 w-full">
+      <article class="prose prose-neutral dark:prose-invert max-w-none min-w-0 prose-headings:font-normal prose-headings:font-[family-name:var(--font-geist-sans)] prose-p:font-[family-name:var(--font-geist-sans)] prose-p:text-foreground prose-strong:font-semibold prose-strong:text-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary/80 prose-table:w-full prose-table:text-sm prose-thead:border-b prose-thead:border-border prose-th:h-10 prose-th:px-2 prose-th:text-left prose-th:align-middle prose-th:font-medium prose-th:font-mono prose-th:text-foreground [&_tbody_tr]:transition-colors [&_tbody_tr:hover]:bg-muted/50 prose-td:p-2 prose-td:align-top prose-td:font-[family-name:var(--font-geist-sans)] prose-td:text-muted-foreground">
+        <Content components={mdxComponents} />
       </article>
       <LearnNav
-        prevPage={prevEntry ? { title: prevEntry.data.title, slug: prevEntry.slug } : undefined}
-        nextPage={nextEntry ? { title: nextEntry.data.title, slug: nextEntry.slug } : undefined}
+        prevPage={prevEntry ? { title: prevEntry.data.title, slug: prevEntry.slug, buttonLabel: prevEntry.data.buttonLabel } : undefined}
+        nextPage={nextEntry ? { title: nextEntry.data.title, slug: nextEntry.slug, buttonLabel: nextEntry.data.buttonLabel } : undefined}
         lastModified={lastModified}
       />
     </div>
   </DashboardLayout>
 </Layout>
+
+<script>
+  // Add scroll detection for MDX table shadows
+  document.querySelectorAll('.mdx-table-scroller > div').forEach((scroller) => {
+    const handleScroll = () => {
+      if (scroller.scrollLeft > 0) {
+        scroller.classList.add('is-scrolled')
+      } else {
+        scroller.classList.remove('is-scrolled')
+      }
+    }
+    scroller.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+  })
+</script>
