@@ -1,6 +1,6 @@
 # Vaults Report
 
-> Independent research mapping vault infrastructure and onchain asset management protocols.
+> Open, community-curated effort to map the protocols, managers, and tooling powering vault infrastructure and onchain asset management.
 
 Website: https://vaults.report
 Twitter: https://x.com/vaultsreport

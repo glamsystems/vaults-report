@@ -1,7 +1,7 @@
 {
   "name": "Vaults Report",
   "short_name": "Vaults Report",
-  "description": "Independent research mapping vault infrastructure and onchain asset management protocols.",
+  "description": "Open, community-curated effort to map the protocols, managers, and tooling powering vault infrastructure and onchain asset management.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F0EFEB",
