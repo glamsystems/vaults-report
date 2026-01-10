@@ -206,7 +206,8 @@
       overflow-y: visible;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-x: contain;
-      touch-action: pan-x pan-y;
+      /* Key: allow page to pan vertically even when touch starts on table */
+      touch-action: pan-y;
     }
   }
 

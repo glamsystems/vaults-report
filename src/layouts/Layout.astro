@@ -44,5 +44,9 @@ import '../styles/global.css'
   </head>
   <body>
     <slot />
+    <script>
+      import { enableTableHorizontalDrag } from '../scripts/table-pan'
+      enableTableHorizontalDrag()
+    </script>
   </body>
 </html>
