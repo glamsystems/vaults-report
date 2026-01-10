@@ -199,6 +199,17 @@
     touch-action: pan-x pan-y;
   }
 
+  /* Mobile-only horizontal scroll for tables */
+  @media (max-width: 767px) {
+    [data-slot="table-container"] {
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
+    }
+  }
+
   /* Hide scrollbar but keep scroll functionality */
   [data-slot="table-container"],
   .mdx-table-scroller > div {

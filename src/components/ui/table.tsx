@@ -27,7 +27,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     <div
       ref={containerRef}
       data-slot="table-container"
-      className="relative w-full overflow-x-auto md:overflow-x-visible overscroll-x-contain"
+      className="relative w-full"
     >
       <table
         data-slot="table"
@@ -84,7 +84,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
       data-slot="table-head"
       className={cn(
         "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0",
-        "first:sticky first:left-0 first:z-10 first:bg-background",
+        "first:sticky first:left-0 first:z-10 first:bg-background first:transform-gpu",
         className
       )}
       {...props}
@@ -98,7 +98,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
       data-slot="table-cell"
       className={cn(
         "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
-        "first:sticky first:left-0 first:z-10 first:bg-background first:transition-colors first:group-hover:bg-[color-mix(in_srgb,var(--muted)_50%,var(--background))]",
+        "first:sticky first:left-0 first:z-10 first:bg-background first:transition-colors first:group-hover:bg-[color-mix(in_srgb,var(--muted)_50%,var(--background))] first:transform-gpu",
         className
       )}
       {...props}
