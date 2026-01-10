@@ -20,7 +20,7 @@ These represent baseline requirements for a conservative institutional diligence
 | **Upgrade Timelock** | Protocol | Timelock exceeding your review \+ redemption timeline, with withdrawals available during the delay (unless explicitly disclosed and accepted) | A timelock can provide an exit window before changes take effect (if withdrawals are available during the delay) |
 | **Audit Coverage** | Protocol | Core contracts audited by an independent security firm, with scope disclosed and core components covered | Unaudited core protocol code fails this minimum bar |
 | **Owner Configuration** | Vault | Multi-sig with threshold ≥2-of-n, or a timelock on config changes that prevents instant unilateral changes and provides an exit window (withdrawals available during the delay) | Single-key vault owner with instant changes creates unilateral control risk |
-| **Delegate Scope** | Vault | Permissions bounded by explicit allowlists/caps/policy checks (on-chain where possible) | Unbounded delegation enables catastrophic misuse |
+| **Delegate Scope** | Vault | Permissions bounded by explicit allowlists/caps/policy checks (onchain where possible) | Unbounded delegation enables catastrophic misuse |
 | **Withdrawal Mechanics** | Vault | Documented behavior (normal AND stress) | Must understand exit conditions |
 | **Incident Response** | Both | Documented, designated responders, and evidence of periodic testing | Needed at both levels |
 | **Monitoring** | Both | Monitoring with alerting for governance/admin changes, key role changes, and vault health signals (TVL/flows, withdrawals) | Protocol and vault events both matter |
