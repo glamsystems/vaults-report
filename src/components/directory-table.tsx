@@ -334,13 +334,16 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
         onClearAll={handleClearAll}
         isMobile={isMobile}
       />
-      {isMobile ? (
+      {/* Mobile: Accordion view */}
+      <div className="md:hidden">
         <MobileAccordionView
           data={filteredData}
           isDark={isDark}
           onCardView={handleCardView}
         />
-      ) : (
+      </div>
+      {/* Desktop: Table view */}
+      <div className="hidden md:block">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -403,7 +406,7 @@ export function DirectoryTable({ data }: DirectoryTableProps) {
             ))}
           </TableBody>
         </Table>
-      )}
+      </div>
     </div>
   )
 }

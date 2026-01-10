@@ -291,12 +291,15 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
         onClearAll={handleClearAll}
         isMobile={isMobile}
       />
-      {isMobile ? (
+      {/* Mobile: Accordion view */}
+      <div className="md:hidden">
         <MobileResourcesAccordion
           data={filteredData}
           onResourceClick={handleResourceClick}
         />
-      ) : (
+      </div>
+      {/* Desktop: Table view */}
+      <div className="hidden md:block">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -341,7 +344,7 @@ export function ResourcesTable({ data }: ResourcesTableProps) {
             ))}
           </TableBody>
         </Table>
-      )}
+      </div>
     </div>
   )
 }
