@@ -185,15 +185,15 @@ function MobileAccordionView({ data, isDark, onCardView }: MobileAccordionViewPr
             {group.items.map((entry) => (
               <AccordionItem key={entry.slug} value={entry.slug}>
                 <AccordionTrigger
-                  className="py-3 text-sm"
+                  className="py-3 text-sm overflow-hidden"
                   onClick={() => onCardView(entry.name, group.category)}
                 >
-                  <div className="flex items-center gap-3">
-                    <ThemedLogo slug={entry.slug} name={entry.name} isDark={isDark} className="size-6" />
-                    <span className="font-medium font-[family-name:var(--font-geist-sans)]">{entry.name}</span>
+                  <div className="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
+                    <ThemedLogo slug={entry.slug} name={entry.name} isDark={isDark} className="size-6 shrink-0" />
+                    <span className="font-medium font-[family-name:var(--font-geist-sans)] truncate">{entry.name}</span>
                     {entry.subCategory && (
-                      <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5">
-                        {entry.subCategory}
+                      <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 shrink-0 whitespace-nowrap mr-2">
+                        {entry.subCategory === 'Private Credit & Alternatives' ? 'Priv. Credit & Alts' : entry.subCategory}
                       </span>
                     )}
                   </div>
