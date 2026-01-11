@@ -348,8 +348,14 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
 
   return (
     <div className="flex flex-col gap-2 items-center">
-      <div ref={mapRef} className="debug-border bg-background flex items-start justify-center" style={{ width: treeWidth + 48, minHeight: treeHeight + 48, padding: 24, overflow: 'visible' }}>
-        <div style={{ width: treeWidth, height: treeHeight }}>
+      <div ref={mapRef} className="bg-background flex items-start justify-center"
+      // style={{ width: treeWidth + 48, minHeight: treeHeight + 48, padding: 24, overflow: 'visible' }}
+      >
+        <div
+          className="w-full h-full"
+          style={{ width: treeWidth, height: treeHeight }}
+        >
+
         <ResponsiveTreeMap
           data={treeData}
           identity="name"
@@ -376,36 +382,34 @@ export function EcosystemGrid({ data }: EcosystemGridProps) {
             const contentHeight = itemRows * cardSize + 24 // pt-5 + pb-1
 
             return (
-              <g transform={`translate(${node.x},${node.y})`}>
-                <foreignObject
-                  width={node.width}
-                  height={contentHeight + labelHeight}
-                  y={-labelHeight}
-                  style={{ overflow: 'visible' }}
-                >
-                  <div style={{ marginTop: labelHeight }}>
-                    <LabeledContainer
-                      label={`${node.id} [${items.length}]`}
-                      style={{ width: itemCols * cardSize + padding * 2 + 2, height: contentHeight }}
+              <foreignObject
+                width={node.width}
+                height={contentHeight + labelHeight}
+                x={node.x}
+                y={Math.min(node.y, 252)}
+              >
+                <div style={{ marginTop: labelHeight }}>
+                  <LabeledContainer
+                    label={`${node.id} [${items.length}]`}
+                    // style={{ width: itemCols * cardSize + padding * 2 + 2, height: contentHeight }}
+                  >
+                    <div
+                      className="flex flex-wrap content-start"
+                      // style={{ width: itemCols * cardSize }}
                     >
-                      <div
-                        className="flex flex-wrap content-start"
-                        style={{ width: itemCols * cardSize }}
-                      >
-                        {items.map((item) => (
-                          <ItemTile key={item.slug} entry={item} category={node.id as string} size={cardSize} />
-                        ))}
-                      </div>
-                    </LabeledContainer>
-                  </div>
-                </foreignObject>
-              </g>
+                      {items.map((item) => (
+                        <ItemTile key={item.slug} entry={item} category={node.id as string} size={cardSize} />
+                      ))}
+                    </div>
+                  </LabeledContainer>
+                </div>
+              </foreignObject>
             )
           }}
         />
         </div>
       </div>
-      <div className="flex justify-end mt-12" style={{ width: treeWidth + 48 }}>
+      <div className="flex justify-end mt-12 w-full" style={{ width: treeWidth-24 }}>
         <Toolbar onExport={handleExport} />
       </div>
       <DevToolbar
