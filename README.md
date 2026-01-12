@@ -2,7 +2,7 @@
 
 Open, community-curated effort to map the protocols, managers, and tooling powering vault infrastructure and onchain asset management.
 
-**https://vaults.report**
+**[vaults.report](https://vaults.report)**
 
 ## Tech Stack
 
