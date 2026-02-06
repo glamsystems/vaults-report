@@ -1,4 +1,4 @@
-import { GithubLogo, FileText, XLogo, Globe, LinkedinLogo, EnvelopeSimple, TelegramLogo } from '@phosphor-icons/react'
+import { GithubLogo, FileText, XLogo, Globe, LinkedinLogo, EnvelopeSimple, TelegramLogo, ChartBar } from '@phosphor-icons/react'
 import type { DirectoryEntry } from '@/lib/directory'
 import { ThemedLogo } from '@/components/shared/ThemedLogo'
 
@@ -30,7 +30,7 @@ export function ChainBadges({ chains, maxRows = 1, maxVisible: maxVisibleProp }:
 }
 
 export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; showAll?: boolean }) {
-  const { name, url, github, docs, twitter, linkedin, email, telegram } = entry
+  const { name, url, github, docs, twitter, linkedin, email, telegram, data } = entry
 
   return (
     <div className="flex items-center gap-2">
@@ -46,7 +46,20 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
       >
         <Globe className="size-5" />
       </a>
-      {github && (
+      {docs ? (
+        <a
+          href={docs}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-muted-foreground hover:text-foreground transition-colors"
+          title="Documentation"
+          data-umami-event="outbound_click"
+          data-umami-event-type="docs"
+          data-umami-event-project={name}
+        >
+          <FileText className="size-5" />
+        </a>
+      ) : github ? (
         <a
           href={`https://github.com/${github}`}
           target="_blank"
@@ -59,19 +72,19 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
         >
           <GithubLogo className="size-5" />
         </a>
-      )}
-      {docs && (
+      ) : null}
+      {data && (
         <a
-          href={docs}
+          href={data}
           target="_blank"
           rel="noopener noreferrer"
           className="text-muted-foreground hover:text-foreground transition-colors"
-          title="Documentation"
+          title="Data"
           data-umami-event="outbound_click"
-          data-umami-event-type="docs"
+          data-umami-event-type="data"
           data-umami-event-project={name}
         >
-          <FileText className="size-5" />
+          <ChartBar className="size-5" />
         </a>
       )}
       {twitter && (

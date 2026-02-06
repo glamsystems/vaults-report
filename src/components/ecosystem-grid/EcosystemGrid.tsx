@@ -32,6 +32,7 @@ function createDummyEntry(category: string, index: number): DirectoryEntry {
     linkedin: '',
     email: '',
     telegram: '',
+    data: '',
   }
 }
 

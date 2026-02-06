@@ -19,6 +19,7 @@ export interface DirectoryEntry {
   linkedin: string
   email: string
   telegram: string
+  data: string
 }
 
 export interface SubCategory {
@@ -61,6 +62,7 @@ function parseCSV(csvContent: string): DirectoryEntry[] {
     linkedin: row.linkedin || '',
     email: row.email || '',
     telegram: row.telegram || '',
+    data: row.data?.startsWith('http') ? row.data : row.data ? `https://${row.data}` : '',
   }))
 }
 
