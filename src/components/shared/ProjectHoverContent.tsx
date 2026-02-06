@@ -46,7 +46,38 @@ export function LinkIcons({ entry, showAll = false }: { entry: DirectoryEntry; s
       >
         <Globe className="size-5" />
       </a>
-      {docs ? (
+      {showAll ? (
+        <>
+          {github && (
+            <a
+              href={`https://github.com/${github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              title="GitHub"
+              data-umami-event="outbound_click"
+              data-umami-event-type="github"
+              data-umami-event-project={name}
+            >
+              <GithubLogo className="size-5" />
+            </a>
+          )}
+          {docs && (
+            <a
+              href={docs}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              title="Documentation"
+              data-umami-event="outbound_click"
+              data-umami-event-type="docs"
+              data-umami-event-project={name}
+            >
+              <FileText className="size-5" />
+            </a>
+          )}
+        </>
+      ) : docs ? (
         <a
           href={docs}
           target="_blank"
